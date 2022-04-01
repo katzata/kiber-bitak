@@ -1,0 +1,39 @@
+footer {
+    position: relative;
+    height: 26px;
+    display: flex;
+    flex-direction: column;
+    color: #afb9c5;
+}
+
+#footer-internal {
+    position: absolute;
+    height: 26px;
+    width: 100%;
+    bottom: 0;
+    background-color: #111f28;
+    overflow: hidden;
+}
+
+#footer-top {
+    height: 26px;
+    padding: 4px 0;
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid white; */
+}
+
+#footer-bottom {
+    padding: 10px 20px 20px 20px;
+}
+
+svg {
+    transform: rotateZ(180deg);
+    animation-duration: .1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+svg, span {
+    margin: auto calc(14px + 0.31007751937984496vw);
+}

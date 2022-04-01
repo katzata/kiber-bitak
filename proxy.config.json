@@ -1,0 +1,10 @@
+{
+    "/catalogue": {
+        "target": "https://parseapi.back4app.com/",
+        "secure": false,
+        "pathRewrite": {
+            "^/catalogue": ""
+        },
+        "changeOrigin": true
+    }
+}

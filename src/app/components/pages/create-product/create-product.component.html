@@ -1,0 +1,70 @@
+<h3>Create a product</h3>
+
+<form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="name">Name*</label>
+        <input id="name" type="text" formControlName="name">
+
+        <div id="upload-div">
+            <label for="files" id="upload-label">
+                <span>Add images</span>
+            <!-- <button id="uploadButton" name="uploadbutton" (click)="fileUpload.click()"> -->
+                <svg viewBox="0 0 18 24">
+                    <polyline points="0,0 14,0 18,4 18,24 0,24 0,0" fill="#111f28" stroke-width="1px" stroke="black" />
+        
+                    <polyline points="6,11 9,8 12,11" fill="none" stroke-width="0.5px" stroke="white" stroke-linecap="round" />
+        
+                    <line x1="9" y1="8" x2="9" y2="16" stroke="white" stroke-width="0.5px" />
+                </svg>
+                <input type="file" #fileUpload  id="files" name="files" formControlName="images" (change)="addToQueue($event)" multiple>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <label for="department">Department*</label>
+        <select name="department" formControlName="department" id="department">
+            <option value="" selected disabled hidden>Choose an option</option>
+            <option value="electronics">Electronics</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="fashion">Fashion</option>
+            <option value="tools">Tools</option>
+            <option value="furniture">Furniture</option>
+            <option value="books">Books</option>
+            <option value="hobbies">Hobbies</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="condition">Condition*</label>
+        <select name="condition" formControlName="condition" id="condition">
+            <option value="" selected disabled hidden>Choose an option</option>
+            <option value="new">New</option>
+            <option value="used">Used</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="price">Price*</label>
+        <input id="price" type="textarea" formControlName="price">
+    </div>
+
+    <div>
+        <label for="quantity">Quantity*</label>
+        <input id="quantity" type="text" formControlName="quantity">
+    </div>
+
+    <div>
+        <label for="description">Description*</label>
+        <input id="description" type="text" formControlName="description">
+    </div>
+
+    <div>
+        <label for="moreInfo">Additional information</label>
+        <input id="moreInfo" type="text" formControlName="moreInfo">
+    </div>
+
+    <input class="submitButton" type="submit" value="Submit">
+</form>
+
+<p>All fields marked with * are required.</p>

@@ -1,0 +1,77 @@
+<section>
+    <h3>Your profile</h3>
+
+    <div id="profile-top">
+        <div class="top-div">
+            <h4>{{username}}</h4>
+            <img src={{image}} alt="user-image">
+        </div>
+
+        <div class="top-div">
+            <h4>Ratings</h4>
+            
+            <div>
+                <p>as buyer</p>
+                <span>{{ratingAsBuyer}}</span>
+            </div>
+
+            <div>
+                <p>as seller</p>
+                <span>{{ratingAsSeller}}</span>
+            </div>
+        </div>
+
+        <div class="top-div">
+            <a routerLink="/mail">
+                <h4>Mail</h4>
+
+                <svg viewBox="0 0 200 120">
+                    <rect
+                        x="3"
+                        y="3"
+                        width="194"
+                        height="114"
+                        rx="2"
+                        fill="white"
+                        stroke="black"
+                        stroke-width="6px"
+                    />
+
+                    <polyline 
+                        points="5,7 100,60 195,7"
+                        fill="none"
+                        stroke="black"
+                        stroke-width="6px"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </a>
+            
+            <!-- <div id="mail-badge">
+                <p>{{unreadMail}}</p>
+            </div> -->
+        </div>
+    </div>
+
+    <div id="profile-bottom">
+        <div>
+            <h4>Purchases</h4>
+            
+            <div class="results">
+                <div *ngFor="let purchase of purchases">
+                    ???
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h4>Your products</h4>
+        
+            <div class="results">
+                <div *ngFor="let product of products">
+                    ???
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

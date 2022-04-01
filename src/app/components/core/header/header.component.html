@@ -1,0 +1,19 @@
+<header>
+    <div id="test-div"></div>
+    <nav>
+        <a routerLink="/" id="home-btn">Home</a>
+
+        <div *ngIf="isLogged; else elseBlock">
+            <a routerLink="/profile">Profile</a>
+            <a routerLink="/catalogue">Catalogue</a>
+            <a routerLink="javascript:void(0)" (click)="logOut()">Logout</a>
+        </div>
+
+        <ng-template #elseBlock>
+            <div>
+                <a routerLink="/login">Login</a>
+                <a routerLink="/register">Register</a>
+            </div>
+        </ng-template>
+    </nav>
+</header>

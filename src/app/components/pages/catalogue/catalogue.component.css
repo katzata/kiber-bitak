@@ -1,0 +1,15 @@
+#mostRecent {
+    width: 48%;
+    min-width: 320px;
+    padding: 10px;
+}
+
+#electronics {
+    width: 100%;
+    padding: 10px;
+}
+
+#sports {
+    width: 100%;
+    padding: 10px;
+}
