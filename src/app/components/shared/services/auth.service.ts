@@ -105,8 +105,10 @@ export class AuthService {
 
     if (user) {
       const data = user.attributes;
+      
       // const { cart, email, messagesFrom, messagesTo, products, purchases, ratingAsBuyer, ratingAsSeller, sessionToken, username } = data.attributes;
       return {
+        id: user.id,
         cart: data["cart"],
         email: data["email"],
         image: data["image"],

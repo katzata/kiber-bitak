@@ -16,6 +16,8 @@ import { CreateProductComponent } from './components/pages/create-product/create
 import { HoverDirective } from './components/shared/section-results/directives/hover.directive';
 import { SectionResultsService } from './components/shared/section-results/services/section-results.service';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
+import { AuthService } from './components/shared/services/auth.service';
+import { DetailsPageComponent } from './components/pages/details-page/details-page.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +31,14 @@ import { ProfilePageComponent } from './components/pages/profile-page/profile-pa
     CreateProductComponent,
     HoverDirective,
     ProfilePageComponent,
+    DetailsPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [SectionResultsService],
   bootstrap: [AppComponent]

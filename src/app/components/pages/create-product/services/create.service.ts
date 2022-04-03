@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
 import * as Parse from 'parse';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/components/shared/services/auth.service';
 
 interface data {
   department: string,
@@ -13,7 +13,6 @@ interface data {
   location: string,
   photos: Array<String>,
   description: string,
-  moreInfo: string,
   owner: string
 }
 
@@ -24,7 +23,7 @@ export class CreateService {
   observable: any;
 
   constructor(
-    // private http: HttpClient
+    private authService: AuthService
   ) {
     Parse.initialize(environment.APP_ID, environment.JS_KEY);
     (Parse as any).serverURL = "https://parseapi.back4app.com";
@@ -35,33 +34,25 @@ export class CreateService {
     //   data.imageData = this.formatImageData(data.imageData);
     // };
 
-    const { condition, department, description, imageData, images, location, moreInfo, name, owner, price, quantity} = data;
-
     return new Observable(observer => {
-      
-      if (imageData.length > 0) {
-        this.uploadImages(imageData);
-      }
-      // const product = new Parse.Object("Products");
-      // product.set({
-      //   department: data.department,
-      //   name: data.name,
-      //   condition: data.condition,
-      //   price: data.price,
-      //   quantity: data.quantity,
-      //   location: data.location,
-      //   photos: ['https://m.media-amazon.com/images/M/MV5BM2ZiZTk1OD…kEyXkFqcGdeQXVyMTE2MzA3MDM@._V1_FMjpg_UX1000_.jpg', 'https://image.posterlounge.com/images/l/1886118.jpg'],
-      //   description: "some description",
-      //   moreInfo: "some more info",
-      //   owner: "test user"
-      // });
-
+      // if (data.imageData.length > 0) {
+        // this.uploadImages(data.imageData);
+      // }
+      const product = new Parse.Object("Products");
+      product.set({
+        department: data.department,
+        name: data.name,
+        condition: data.condition,
+        price: data.price,
+        quantity: data.quantity,
+        location: data.location,
+        photos: ['https://m.media-amazon.com/images/M/MV5BM2ZiZTk1OD…kEyXkFqcGdeQXVyMTE2MzA3MDM@._V1_FMjpg_UX1000_.jpg', 'https://image.posterlounge.com/images/l/1886118.jpg'],
+        description: data.description,
+        seller: this.authService.userData()!.id
+      });
       
       try {
-        // product.save().then(data => observer.next(data));
-        // const name = person.get("name");
-        // const age = person.get("age");
-
+        product.save().then(data => observer.next(data));
       } catch (error: any) {
         alert(`Failed to retrieve the object, with error code: ${error.message}`);
       };

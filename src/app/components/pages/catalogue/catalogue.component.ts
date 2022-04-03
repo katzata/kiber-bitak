@@ -1,54 +1,87 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth.service';
 import { CatalogueService } from './services/catalogue.service';
-import { environment } from 'src/environments/environment';
-import * as Parse from 'parse';
+import { ViewportScroller } from '@angular/common';
 
-interface Products {
+interface SimpleObject {
   [key: string]: any
 };
 
 @Component({
   selector: 'app-catalogue',
   templateUrl: './catalogue.component.html',
-  providers: [CatalogueService],
   styleUrls: ['./catalogue.component.css'],
 })
 
 export class CatalogueComponent implements OnInit {
-  results: Promise<Products[]> | null = null;
-  latest: Promise<any> | null = null;
-  ready: boolean = false;
-  resolve: Function|null = null;
+  results: Array<SimpleObject> = [];
+
+  departments: SimpleObject = {
+    electronics: "Electronics",
+    vehicles: "Vehicles",
+    fashion: "Fashion",
+    Tools: "Tools",
+    furniture: "Furniture",
+    books: "Books",
+    hobbies: "Hobbies",
+    misc: "Misc"
+  };
+
+  sortOptions: Array<string> = [
+    "unsorted",
+    "name",
+    "price",
+    "location"
+  ];
+
+  sortOrder: SimpleObject = {
+    unsorted: "unsorted",
+    asc: "ascending",
+    des: "descending"
+  };
+
+  sortDefaults: SimpleObject = {
+    options: this.sortOptions[0],
+    order: this.sortOrder["unsorted"],
+  };
+
+  searchForm = this.formBuilder.group({
+    search: new FormControl("", [Validators.minLength(3)]),
+    sortCriteria: new FormControl(this.sortDefaults["options"]),
+    sortOrder: new FormControl(this.sortDefaults["order"])
+  });
   
-  constructor(private catalogueService: CatalogueService) {
-    Parse.initialize(environment.APP_ID, environment.JS_KEY); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
-    (Parse as any).serverURL = 'https://parseapi.back4app.com/';
-    // this.reset();
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private catalogueService: CatalogueService,
+    private viewportScroller: ViewportScroller,
+    ) {
+      // this.searchForm.controls["sortCriteria"].setValue("unsorted", {onlySelf: true});
   };
 
   ngOnInit(): void {
     // this.getProducts();
   };
 
-  reset(): any {
-    this.ready = false;
-    this.results = new Promise<Products[]>((resolve, reject) => {
-      this.resolve = resolve;
-    });
-  }
-
   getProducts(): any {
-    this.catalogueService.getItems()
-      .subscribe((data: Products[]) => {
-        console.log(data);
+    // this.catalogueService.getItems()
+    //   .subscribe((data: Products[]) => {
+    //     console.log(data);
         
-        if (this.ready) {
-          this.reset();
-        } else {
-          this.resolve!(data);
-          this.ready = true;
-        }
-      });
+    //     if (this.ready) {
+    //       this.reset();
+    //     } else {
+    //       this.resolve!(data);
+    //       this.ready = true;
+    //     }
+    //   });
+  };
+
+  getByDepartment(department: string) {
+    this.scrollToSearch();
+    console.log(department);
   };
 
   handleSubmit = () => {
@@ -68,4 +101,17 @@ export class CatalogueComponent implements OnInit {
     //   }
     // );
   };
+
+  search() {
+    console.log(this.searchForm.value);
+    
+    this.catalogueService.search(this.searchForm.value).subscribe((data: any) => {
+      console.log(data[0]);
+      this.results = data;
+    });
+  }
+
+  private scrollToSearch() {
+    this.viewportScroller.scrollToAnchor("search-section");
+  }
 }

@@ -24,13 +24,15 @@ nav {
     margin: auto 0 auto auto;
 }
 
-nav a {
+nav a, nav a:visited {
     padding: 2px;
     text-decoration: none;
+    color: #afb9c5;
+    transition-duration: .12s;
 }
 
-nav a:visited {
-    color: #afb9c5;
+nav a:hover {
+    color: #cad4e0;
 }
 
 nav div {

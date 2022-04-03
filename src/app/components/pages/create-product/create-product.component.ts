@@ -11,17 +11,17 @@ export class CreateProductComponent implements OnInit {
   imageArray: Array<Object> = [];
 
   createForm = this.formBuilder.group({
-    department: ""/* new FormControl("", [Validators.required]) */,
-    name: ""/* new FormControl("", [Validators.required, Validators.minLength(3)]) */,
-    condition: ""/* new FormControl("", [Validators.required]) */,
-    price: ""/* new FormControl("", [Validators.required, Validators.min(0)]) */,
-    quantity: ""/* new FormControl("", [Validators.required, Validators.min(1)]) */,
-    location: ""/* new FormControl("", [Validators.required, Validators.minLength(5)]) */,
+    department: new FormControl("", [Validators.required]),
+    name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    condition: new FormControl("", [Validators.required]),
+    price: new FormControl("", [Validators.required, Validators.min(0)]),
+    quantity: new FormControl("", [Validators.required, Validators.min(1)]),
+    location: new FormControl("", [Validators.required, Validators.minLength(5)]),
     images: "",
     imageData: [],
-    description: ""/* new FormControl("") */,
-    moreInfo: ""/* new FormControl("") */,
-    owner: ""/* new FormControl("", [Validators.required, Validators.minLength(3)] )*/
+    description: new FormControl(""),
+    moreInfo: new FormControl(""),
+    owner: new FormControl("", [Validators.required, Validators.minLength(3)] )
   });
 
   constructor(

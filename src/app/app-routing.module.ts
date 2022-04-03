@@ -5,6 +5,7 @@ import { HomePageComponent } from './components/pages/home-page/home-page.compon
 import { AuthPageComponent } from './components/pages/auth-page/auth-page.component';
 import { CatalogueComponent } from './components/pages/catalogue/catalogue.component';
 import { CreateProductComponent } from './components/pages/create-product/create-product.component';
+import { DetailsPageComponent } from './components/pages/details-page/details-page.component';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
 
 const routes: Routes = [
@@ -12,8 +13,9 @@ const routes: Routes = [
   { path: "register", component: AuthPageComponent },
   { path: "login", component: AuthPageComponent },
   { path: "catalogue", component: CatalogueComponent },
-  { path: "profile", component: ProfilePageComponent },
   { path: "create", component: CreateProductComponent },
+  { path: "details/:model/:id", component: DetailsPageComponent },
+  { path: "profile", component: ProfilePageComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

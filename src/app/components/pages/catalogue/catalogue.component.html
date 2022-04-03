@@ -1,7 +1,93 @@
-<section id="mostRecent">
-    <app-section-results department="mostRecent"></app-section-results>
-</section>
+<h3 id="page-title">Browse by section</h3>
 
-<div class="createAdd">
+<div id="catalogue-top">
+    <a
+        *ngFor="let link of departments | keyvalue"
+        (click)="getByDepartment(link.key)"
+        href="javascript:void(0);"
+    >
+        {{link.value}}
+    </a>
+</div>
+<!-- <app-section-results department="mostRecent"></app-section-results> -->
+<div>
+    You can add a product to the catalogue <a routerLink="/create">here</a>
+</div>
+
+<div id="search-section">
+    <h3>Seatch for a specific product</h3>
     
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+        <input type="submit" value="Search">
+        <input type="text" formControlName="search">
+
+        <div id="search-filters">
+            
+        </div>
+
+        <div id="sort-options">
+            <label for="search-criteria">
+                Sort by
+            </label>
+
+            <select formControlName="sortCriteria" id="sort-criteria">
+                <!-- <option value="unsorted" selected>Unsorted</option> -->
+                <option *ngFor="let option of sortOptions" value="{{option}}">{{option}}</option>
+                <!-- <option value="" selected>Search by</option>
+                <option value="price">price</option>
+                <option value="name">name</option>
+                <option value="location">location</option> -->
+            </select>
+
+            <!-- <div>
+                <input type="radio" id="contactChoice1" name="contact" value="email" checked>
+                <label for="contactChoice1">Email</label>
+                
+                <input type="radio" id="contactChoice2" name="contact" value="phone">
+                <label for="contactChoice2">Phone</label>
+                
+                <input type="radio" id="contactChoice3" name="contact" value="mail">
+                <label for="contactChoice3">Mail</label>
+            </div> -->
+            <div>
+                <input type="radio" id="sort-none" formControlName="sortOrder" value="unsorted" checked>
+                <label for="sort-none">unsorted</label>
+                
+                <input type="radio" id="sort-asc" formControlName="sortOrder" value="asc" >
+                <label for="sort-asc">ascending</label>
+                
+                <input type="radio" id="sort-des" formControlName="sortOrder" value="des" >
+                <label for="sort-des">descending</label>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="seatch-results">
+    <div id="results-header">
+        <p>Product name</p>
+        <p>Department</p>
+        <p>Condition</p>
+        <p>Price</p>
+    </div>
+
+    <a routerLink="/details/product/{{res['id']}}" *ngFor="let res of results" class="result">
+        <p>
+            <span>{{res["name"]}}</span>
+        </p>
+
+        <p>
+            <span>{{res["department"]}}</span>
+        </p>
+        <!-- <p>
+            <span>{{res["images"]}}</span>
+        </p> -->
+        <p>
+            <span>{{res["condition"]}}</span>
+        </p>
+        
+        <p>
+            <span>{{res["price"]}}</span>
+        </p>
+    </a>
 </div>
