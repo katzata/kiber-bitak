@@ -17,7 +17,9 @@ import { HoverDirective } from './components/shared/section-results/directives/h
 import { SectionResultsService } from './components/shared/section-results/services/section-results.service';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
 import { AuthService } from './components/shared/services/auth.service';
-import { DetailsPageComponent } from './components/pages/details-page/details-page.component';
+import { DetailsPageComponent } from './components/pages/product-details-page/product-details-page.component';
+import { CatalogueButtonComponent } from './components/fragments/catalogue-button/catalogue-button.component';
+import { CarouselComponent } from './components/fragments/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { DetailsPageComponent } from './components/pages/details-page/details-pa
     CreateProductComponent,
     HoverDirective,
     ProfilePageComponent,
-    DetailsPageComponent
+    DetailsPageComponent,
+    CatalogueButtonComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

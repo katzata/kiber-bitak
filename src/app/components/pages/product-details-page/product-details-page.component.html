@@ -1,0 +1,57 @@
+<h2>Details</h2>
+
+<section id="details" *ngIf="details">
+    <div id="details-top">
+        <div id="details-top-header">
+            <h3>{{details.name}}</h3>
+
+            <div>
+                <p>
+                    <span>Seller: </span>
+                    <a routerLink="/details/user/{{details.seller.id}}">{{details.seller.username}}</a>
+                </p>
+
+                <p>Rating: {{details.seller.rating}}</p>
+            </div>
+        </div>
+            
+        <div id="details-top-body">
+            <div>
+                <span>Department: </span>
+                <p>{{details.department}}</p>
+            </div>
+        
+            <div>
+                <span>Condition: </span>
+                <p>{{details.condition}}</p>
+            </div>
+        
+            <div>
+                <span>Price: </span>
+                <p>{{details.price}}</p>
+            </div>
+        
+            <div>
+                <span>Quantity: </span>
+                <p>{{details.quantity}}</p>
+            </div>
+        
+            <div>
+                <span>Delivery: </span>
+                <p>{{details.delivery}}</p>
+            </div>
+        </div>
+
+        <div id="carousel-container">
+            <app-carousel [images]="details.images"></app-carousel>
+
+            <div id="views">
+                <span>{{details.views}}</span> views
+            </div>
+        </div>
+    </div>
+
+    <div id="details-bottom">
+        <p>{{details.description}}</p>
+    </div>
+</section>

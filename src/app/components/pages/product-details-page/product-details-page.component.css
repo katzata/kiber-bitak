@@ -1,0 +1,102 @@
+h2 {
+    text-align: center;
+    margin: 15px 0;
+}
+
+section {
+    width: 90%;
+    margin: auto;
+    background-color: #1e3746;
+    border: 1px solid rgba(0, 0, 0, .5);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);
+}
+
+#details-top {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 32%;
+    grid-template-rows: auto auto;
+    border-top: 1px solid rgba(0, 0, 0, .5);
+    border-bottom: 1px solid rgba(0, 0, 0, .5);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#details-top-header {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: grid;
+    grid-template-columns: 1fr 160px;
+}
+
+h3 {
+    padding: 6px 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, .5);
+}
+
+#details-top-header span {
+    margin-right: 4px;
+}
+
+#details-top-body {
+    position: relative;
+    padding: 2px 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#details-top-body div {
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(0, 0, 0, .4);
+}
+
+#details-body span {
+    font-size: 15px;
+    font-weight: bold;
+    color: #e3eaf3;
+    letter-spacing: 1px;
+}
+
+#details-top-body p {
+    padding: 0 8px 1px;
+    margin: 0 0 1px 0;
+    display: block;
+    font-size: 15px;
+    /* border-bottom: 1px solid rgba(0, 0, 0, .4); */
+}
+
+#details-top-body div:last-child {
+    border-bottom: none;
+}
+
+#carousel-container {
+    max-width: 160px;
+}
+
+#views {
+    text-align: center;
+}
+
+#views p {
+    padding: 2px 4px;
+}
+
+#details-bottom {
+    padding: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    letter-spacing: .5px;
+    color: whitesmoke;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}

@@ -24,10 +24,6 @@ form {
     height: 100%;
 }
 
-.single {
-
-}
-
 .double {
     position: relative;
     grid-column-start: 1;
@@ -41,30 +37,38 @@ form {
     flex-grow: 3;
 }
 
-#triple {
+.triple {
     grid-column-start: 1;
     grid-column-end: 3;
-    display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
+    display: grid;
+    column-gap: 3.5%;
+    /* display: flex;
+    flex-direction: row; */
 }
 
-#triple div:nth-child(1) {
+.triple:nth-child(2) {
+    grid-template-columns: repeat(3, 31%);
+}
+
+.triple:nth-child(3) {
+    grid-template-columns: 60px 60px 1fr;
+}
+
+/* .triple:nth-child(3) div:nth-child(1) {
     flex-grow: 1;
     width: 12%;
     min-width: 41px;
-    /* padding: 0; */
 }
 
-#triple div:nth-child(2) {
+.triple:nth-child(3) div:nth-child(2) {
     width: 17%;
     min-width: 64px;
     margin: 0 4%;
 }
 
-#triple div:nth-child(3) {
+.triple:nth-child(3) div:nth-child(3) {
     flex-grow: 2;
-}
+} */
 
 #upload-div {
     width: 78px;

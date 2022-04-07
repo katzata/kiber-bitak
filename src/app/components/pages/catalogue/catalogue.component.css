@@ -1,3 +1,13 @@
+section {
+    width: 90%;
+    margin: auto;
+}
+
+h3 {
+    margin: 20px 0 15px;
+    text-align: center;
+}
+
 #catalogue-top {
     width: 100%;
     padding: 10px;
@@ -8,11 +18,60 @@
 }
 
 #catalogue-top a {
-    padding: 5px;
+    width: 90px;
+    height: 72px;
+    margin: 0 2px 10px;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e1e9f3;
+    color: black;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, .3);
+}
+
+#catalogue-top a:hover {
+    
+}
+
+.svg {
+    height: 30px;
+    margin: auto;
+}
+
+#fashion {
+    height: 32px;
+}
+
+#hobbies {
+    height: 29px;
+}
+
+#vehicles {
+    height: 34px;
+}
+
+#search-section {
+    margin: 6px 0 20px;
+    display: flex;
+}
+
+form {
+    flex-grow: 2;
+    padding: 0 10px 10px 0;
+}
+
+form div:first-child {
+    margin-top: 7px;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    grid-template-rows: 22px;
 }
 
 input {
-    padding: 3px 6px;
     border: none;
 }
 
@@ -21,33 +80,103 @@ input:focus {
 }
 
 input[type="submit"] {
-    /* padding: 2px 4px; */
     background-color: #afb9c5;
-    /* font-size: 15px; */
-    border: none;
     border-radius: 2px 0 0 2px;
 }
 
 input[type="text"] {
-    border: none;
     border-radius: 0 2px 2px 0;
+}
+
+input[type="radio"] {
+    margin: 0 auto;
+}
+
+#sort-options {
+    padding-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#criteria-label {
+    margin-top: 5px;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+}
+
+#sort-options div {
+    margin-top: 5px;
+    flex-grow: 1;
+    display: flex;
+}
+
+#radio-buttons {
+    padding: 5px 10px;
+}
+
+#radio-buttons label:nth-child(2) {
+    margin: 0 10px;
+}
+
+label {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+select {
+    margin: 3px 0 0 10px;
+}
+
+#add-product {
+    min-width: 150px;
+    padding: 0 14px;
+    margin: 0 0px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E2E5DE;
+    border: 1px solid black;
+    border-radius: 34px;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #111f28;
+}
+
+#add-product:visited {
+    color: #111f28;
+}
+
+#add-product:active {
+    animation-name: pulse;
+    animation-duration: .8s;
+    animation-iteration-count: infinite;
+    /* animation: pulse .1s linear 0 infinite; */
+}
+
+#add-product svg {
+    width: 50px;
+    height: 50px;
+    margin-left: 14px;
 }
 
 #seatch-results {
     width: 100%;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #afb9c5;
     color: black;
     border-radius: 3px;
 }
 
 #results-header, .result {
     display: grid;
-    grid-template-columns: 1fr 94px 82px 58px;
+    grid-template-columns: 1fr 93px 81px 58px;
 }
 
 #results-header {
+    background-color: #acb6c2;
     border: 2px solid rgb(43, 43, 43);
     border-radius: 3px 3px 0 0;
 }
@@ -57,21 +186,71 @@ input[type="text"] {
     border-left: 2px solid rgb(43, 43, 43);
 }
 
-#results-header p:nth-child(1) {
+#results-header p:first-child {
     border-left: none;
+}
+
+#results-header p:last-child {
+    text-align: center;
 }
 
 .result {
     width: 100%;
+    background-color: #e1e9f3;
     border: 2px solid rgb(63, 63, 63);
+    transition-duration: .15s;
+    text-decoration: none;
     border-top: none;
 }
 
-.result p {
+.result:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.column {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 2px 0 2px 4px;
+    display: flex;
+    font-size: 16px;
+    color: #111f28;
     border-left: 2px solid rgb(63, 63, 63);
     border-top: none;
+    overflow: hidden;
 }
 
-.result p:nth-child(1) {
+.column:first-child {
+    
     border-left: none;
+}
+
+.column:last-child {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.column:last-child p {
+    margin: auto 0;
+}
+
+.text-blur {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0px;
+    height: 100%;
+    box-shadow: 0 0 3px 4px #e1e9f3;
+}
+
+@media screen and (max-width: 583px) {
+    #criteria-label {
+        flex-direction: row;
+    }
+}
+
+@keyframes pulse {
+    0%{box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);}
+    50%{box-shadow: 0 0 4px 2px rgba(0, 0, 0, .5);}
+    100%{box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);}
 }

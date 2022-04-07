@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Title } from "@angular/platform-browser";
 import { FormGroup, FormBuilder, FormControl, Validators, ValidationErrors } from "@angular/forms";
 import { AuthService } from "../../shared/services/auth.service";
 // import { SessionService } from "../../shared/services/session.service";
@@ -46,10 +47,12 @@ export class AuthPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private titleService: Title,
     private formBuilder: FormBuilder,
     private router: Router,
-    // private sessionService: SessionService
-    ) { };
+    ) {
+    this.titleService.setTitle(this.title);
+  };
   
   ngOnInit(): void {
 

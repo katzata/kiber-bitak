@@ -6,6 +6,7 @@
 }
 
 main {
+    position: relative;
     width: calc(100% + 17px);
     padding-right: 17px;
     height: 100%;

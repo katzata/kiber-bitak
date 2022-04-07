@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from "@angular/platform-browser";
 import { AuthService } from '../../shared/services/auth.service';
+import { User } from "../../shared/models/User.model";
 
 interface Data {
   username: string;
@@ -21,28 +23,18 @@ interface Data {
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  username: string = "";
-  email: string = "";
-  image: string = "";
-  ratingAsBuyer: number = 0;
-  ratingAsSeller: number = 0;
-  purchases: Array<object> = [];
-  products: Array<object> = [];
-  messagesFrom: Array<object> = [];
-  messagesTo: Array<object> = [];
+  userData: User;
 
   constructor(
+    private titleService: Title,
     private authService: AuthService
   ) { 
-    const { username, image, ratingAsBuyer, ratingAsSeller, purchases, products } = this.authService.userData() as Data;
-    this.username = username;
-    this.image = image;
-    this.ratingAsBuyer = this.formatRating(ratingAsBuyer);
-    this.ratingAsSeller = this.formatRating(ratingAsSeller);
-    this.purchases = purchases;
-    this.products = products;
-        
-    console.log(this.authService.userData());
+    const result = this.authService.userData()!;
+    result.ratingAsBuyer = this.formatRating(result.ratingAsBuyer);
+    result.ratingAsSeller = this.formatRating(result.ratingAsSeller);
+    
+    this.userData = result;
+    this.titleService.setTitle("Profile");
   }
 
   ngOnInit(): void {

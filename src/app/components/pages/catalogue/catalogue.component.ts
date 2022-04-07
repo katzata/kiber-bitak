@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from "@angular/platform-browser";
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
 import { CatalogueService } from './services/catalogue.service';
@@ -21,44 +22,45 @@ export class CatalogueComponent implements OnInit {
     electronics: "Electronics",
     vehicles: "Vehicles",
     fashion: "Fashion",
-    Tools: "Tools",
+    tools: "Tools",
     furniture: "Furniture",
     books: "Books",
     hobbies: "Hobbies",
     misc: "Misc"
   };
 
-  sortOptions: Array<string> = [
-    "unsorted",
+  searchOptions: Array<string> = [
     "name",
+    "condition",
     "price",
     "location"
   ];
 
-  sortOrder: SimpleObject = {
-    unsorted: "unsorted",
-    asc: "ascending",
-    des: "descending"
-  };
+  sortOptions: Array<string> = [
+    "unsorted",
+    "ascending",
+    "descending"
+  ];
 
   sortDefaults: SimpleObject = {
-    options: this.sortOptions[0],
-    order: this.sortOrder["unsorted"],
+    // options: this.sortOptions[0],
+    // order: this.sortOrder["unsorted"],
   };
 
   searchForm = this.formBuilder.group({
     search: new FormControl("", [Validators.minLength(3)]),
-    sortCriteria: new FormControl(this.sortDefaults["options"]),
-    sortOrder: new FormControl(this.sortDefaults["order"])
+    searchCriteria: new FormControl(this.sortDefaults["options"]),
+    sortCriteria: new FormControl(this.sortDefaults["order"])
   });
   
   constructor(
     private formBuilder: FormBuilder,
+    private titleService: Title,
     private authService: AuthService,
     private catalogueService: CatalogueService,
     private viewportScroller: ViewportScroller,
     ) {
-      // this.searchForm.controls["sortCriteria"].setValue("unsorted", {onlySelf: true});
+      this.titleService.setTitle("Catalogue");
   };
 
   ngOnInit(): void {
@@ -81,7 +83,7 @@ export class CatalogueComponent implements OnInit {
 
   getByDepartment(department: string) {
     this.scrollToSearch();
-    console.log(department);
+    // console.log(department);
   };
 
   handleSubmit = () => {
@@ -103,10 +105,10 @@ export class CatalogueComponent implements OnInit {
   };
 
   search() {
-    console.log(this.searchForm.value);
+    // console.log(this.searchForm.value);
     
     this.catalogueService.search(this.searchForm.value).subscribe((data: any) => {
-      console.log(data[0]);
+      // console.log(data[0]);
       this.results = data;
     });
   }

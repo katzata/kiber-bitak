@@ -1,5 +1,8 @@
 section {
+    width: 90%;
+    max-width: 500px;
     padding: 10px 14px;
+    margin: auto;
     display: flex;
     flex-direction: column;
 }
@@ -16,11 +19,12 @@ h3 {
 
 .top-div {
     padding: 4px 8px;
-    border-radius: 4px;
+    display: grid;
     background-color: #e2e2e2;
     color: #111f28;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .4);
-    overflow: hidden;
+    border-radius: 4px;
+    /* overflow: hidden; */
 }
 
 .top-div:nth-child(1) {
@@ -40,7 +44,8 @@ h3 {
 }
 
 .top-div:nth-child(2) {
-    margin: 0 auto;
+    flex-grow: 1;
+    margin: 0 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;

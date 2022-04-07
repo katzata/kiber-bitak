@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 import { Observable, Subject } from 'rxjs';
+import { User } from "../models/User.model";
 
 interface Res {
   status: boolean;
@@ -63,12 +64,8 @@ export class AuthService {
 
           Parse.User.become(user.attributes["sessionToken"]).then(function (user) {
             console.log(localStorage);
-            // The current user is now set to user.
-
           }, function (error) {
             console.log("The token could not be validated." + error);
-
-            // The token could not be validated.
           });
 
           observer.next(user ? user : false);
@@ -105,8 +102,7 @@ export class AuthService {
 
     if (user) {
       const data = user.attributes;
-      
-      // const { cart, email, messagesFrom, messagesTo, products, purchases, ratingAsBuyer, ratingAsSeller, sessionToken, username } = data.attributes;
+
       return {
         id: user.id,
         cart: data["cart"],

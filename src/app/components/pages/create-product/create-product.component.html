@@ -22,30 +22,35 @@
         </div>
     </div>
 
-    <div class="single">
-        <label for="department">Department*</label>
-        <select name="department" formControlName="department" id="department">
-            <option value="" selected disabled hidden>Choose an option</option>
-            <option value="electronics">Electronics</option>
-            <option value="vehicles">Vehicles</option>
-            <option value="fashion">Fashion</option>
-            <option value="tools">Tools</option>
-            <option value="furniture">Furniture</option>
-            <option value="books">Books</option>
-            <option value="hobbies">Hobbies</option>
-        </select>
+    <div class="triple">
+        <div>
+            <label for="department">Department*</label>
+            <select name="department" formControlName="department" id="department">
+                <option value="" selected disabled hidden>Choose</option>
+                <option *ngFor="let dept of departments | keyvalue" value="{{dept.key}}">{{dept.value}}</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="condition">Condition*</label>
+            <select name="condition" formControlName="condition" id="condition">
+                <option value="" selected disabled hidden>Choose</option>
+                <option value="new">New</option>
+                <option value="used">Used</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="delivery">Delivery*</label>
+            <select name="delivery" formControlName="delivery" id="delivery">
+                <option value="" selected disabled hidden>Choose</option>
+                <option value="bySeller">By the seller</option>
+                <option value="byBuyer">By the buyer</option>
+            </select>
+        </div>
     </div>
 
-    <div class="single">
-        <label for="condition">Condition*</label>
-        <select name="condition" formControlName="condition" id="condition">
-            <option value="" selected disabled hidden>Choose an option</option>
-            <option value="new">New</option>
-            <option value="used">Used</option>
-        </select>
-    </div>
-
-    <div id="triple">
+    <div class="triple">
         <div>
             <label for="price">Price*</label>
             <input id="price" type="number" formControlName="price">
