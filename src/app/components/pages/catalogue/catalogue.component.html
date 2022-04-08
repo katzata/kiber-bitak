@@ -12,46 +12,48 @@
         
     <div id="search-section">
         <form [formGroup]="searchForm" (ngSubmit)="search()">
-            <div>
-                <input type="submit" value="Search">
+            <div id="search-field">
+                <input id="submit" type="submit" value="Search">
                 <input type="text" formControlName="search">
             </div>
     
             <div id="search-options">
-                <label id="criteria-label" for="search-criteria">
-                    Sarch by
-                    <select formControlName="searchCriteria" id="search-criteria">
-                        <option *ngFor="let option of searchOptions" value="{{option}}">{{option}}</option>
-                    </select>
-                </label>
+                <div id="search-criteria">
+                    <label id="criteria-label" for="products">
+                        Products
+                        <input type="checkbox" formControlName="products" value="Products">
+                    </label>
+                    
+                    <label id="criteria-label" for="users">
+                        Users
+                        <input type="checkbox" formControlName="users" value="Users" (click)="toggleSortCriterias($event.target!)">
+                    </label>
+                </div>
 
-                <label id="sort-label" for="sort-criteria">
-                    Sarch by
-                    <select formControlName="sortCriteria" id="sort-criteria">
-                        <option *ngFor="let option of sortOptions" value="{{option}}">{{option}}</option>
+                <div id="sort-criteria" for="sort-criteria">
+                    <span>Sort by</span>
+                    
+                    <div>
+                        <label *ngFor="let option of sortCriteria | keyvalue" for="option.value">
+                            <input type="radio" formControlName="sortCriteria" value={{option.key}}> {{option.value}}
+                        </label>
+                    </div>
+                </div>
+
+                <div id="sort-order">
+                    <span>Order</span>
+                
+                    <select formControlName="sortOrder">
+                        <option *ngFor="let option of sortOptions" value="{{option}}">
+                            {{option}}
+                        </option>
                     </select>
-                </label>
-                <!-- <div id="radio-buttons">
-                    <label for="sort-none">
-                        <input type="radio" id="sort-none" formControlName="sortOrder" value="unsorted" checked>
-                        unsorted
-                    </label>
-                    
-                    <label for="sort-asc">
-                        <input type="radio" id="sort-asc" formControlName="sortOrder" value="asc">
-                        ascending
-                    </label>
-                    
-                    <label for="sort-des">
-                        <input type="radio" id="sort-des" formControlName="sortOrder" value="des">
-                        descending
-                    </label>
-                </div> -->
+                </div>
             </div>
         </form>
 
         <a id="add-product" routerLink="/create">
-            Add a product
+            <p>Add product</p>
 
             <svg viewBox="0 0 100 100">
                 <circle
@@ -93,30 +95,6 @@
             <p>Price</p>
         </div>
 
-        <a routerLink="/details/product/{{res['id']}}" *ngFor="let res of results" class="result">
-            <div class="column">
-                <p>{{res["name"]}}</p>
-                <div class="text-blur"></div>
-            </div>
-    
-            <div class="column">
-                <p>{{res["department"]}}</p>
-                <div class="text-blur"></div>
-            </div>
-
-            <!-- <div class="column">
-                <p>{{res["images"]}}</p>
-            </div> -->
-
-            <div class="column">
-                <p>{{res["condition"]}}</p>
-                <div class="text-blur"></div>
-            </div>
-
-            <div class="column">
-                <p>{{res["price"]}}</p>
-                <div class="text-blur"></div>
-            </div>
-        </a>
+        <app-catalogue-result *ngFor="let res of results" [res]="res"></app-catalogue-result>
     </div>
 </section>

@@ -20,6 +20,7 @@ import { AuthService } from './components/shared/services/auth.service';
 import { DetailsPageComponent } from './components/pages/product-details-page/product-details-page.component';
 import { CatalogueButtonComponent } from './components/fragments/catalogue-button/catalogue-button.component';
 import { CarouselComponent } from './components/fragments/carousel/carousel.component';
+import { CatalogueResultComponent } from './components/fragments/catalogue-result/catalogue-result.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CarouselComponent } from './components/fragments/carousel/carousel.comp
     ProfilePageComponent,
     DetailsPageComponent,
     CatalogueButtonComponent,
-    CarouselComponent
+    CarouselComponent,
+    CatalogueResultComponent
   ],
   imports: [
     BrowserModule,

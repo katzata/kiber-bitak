@@ -17,6 +17,7 @@ interface SimpleObject {
 
 export class CatalogueComponent implements OnInit {
   results: Array<SimpleObject> = [];
+  bothChecked: boolean = false;
 
   departments: SimpleObject = {
     electronics: "Electronics",
@@ -31,10 +32,14 @@ export class CatalogueComponent implements OnInit {
 
   searchOptions: Array<string> = [
     "name",
-    "condition",
     "price",
-    "location"
   ];
+
+  sortCriteria: Object = {
+    name: "Name",
+    price: "Price",
+    date: "Date"
+  };
 
   sortOptions: Array<string> = [
     "unsorted",
@@ -42,15 +47,12 @@ export class CatalogueComponent implements OnInit {
     "descending"
   ];
 
-  sortDefaults: SimpleObject = {
-    // options: this.sortOptions[0],
-    // order: this.sortOrder["unsorted"],
-  };
-
   searchForm = this.formBuilder.group({
     search: new FormControl("", [Validators.minLength(3)]),
-    searchCriteria: new FormControl(this.sortDefaults["options"]),
-    sortCriteria: new FormControl(this.sortDefaults["order"])
+    products: new FormControl(true),
+    users: new FormControl(false),
+    sortCriteria: new FormControl("name"),
+    sortOrder: new FormControl("unsorted")
   });
   
   constructor(
@@ -86,6 +88,13 @@ export class CatalogueComponent implements OnInit {
     // console.log(department);
   };
 
+  toggleSortCriterias(target: EventTarget) {
+    const { name, value, checked } = target as HTMLInputElement;
+
+    console.log(name, value, checked, this.searchForm);
+    
+  };
+
   handleSubmit = () => {
     // const user = new Parse.User();
     // user.set("username", "test username");
@@ -105,15 +114,19 @@ export class CatalogueComponent implements OnInit {
   };
 
   search() {
+    const { search, products, users, sortCriteria, sortOrder } = this.searchForm.value;
     // console.log(this.searchForm.value);
     
-    this.catalogueService.search(this.searchForm.value).subscribe((data: any) => {
-      // console.log(data[0]);
-      this.results = data;
-    });
-  }
+    if (products || users) {
+      this.catalogueService.search(this.searchForm.value).subscribe((data: any) => {
+        this.results = data;
+      });
+    } else {
+      throw new Error("You have to choose a search criteria.");
+    };
+  };
 
   private scrollToSearch() {
     this.viewportScroller.scrollToAnchor("search-section");
-  }
-}
+  };
+};
