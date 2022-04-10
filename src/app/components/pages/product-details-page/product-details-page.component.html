@@ -40,6 +40,16 @@
                 <span>Delivery: </span>
                 <p>{{details.delivery}}</p>
             </div>
+
+            <div *ngIf="isLogged">
+                <div *ngIf="isOwner; else elseBlock">
+                    <a id="edit" routerLink="/edit/product/{{details.id}}">Edit</a>
+                 </div>
+
+                <ng-template #elseBlock>
+                    <button id="contact-seller" (click)="contactSeller()">Contact seller</button>
+                </ng-template>
+            </div>
         </div>
 
         <div id="carousel-container">
@@ -54,4 +64,6 @@
     <div id="details-bottom">
         <p>{{details.description}}</p>
     </div>
+
+    <app-message-modal [recipient]="details.seller.username"></app-message-modal>
 </section>

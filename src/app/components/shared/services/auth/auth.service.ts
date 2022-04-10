@@ -1,12 +1,22 @@
+import { ErrorHandlingService } from "src/app/services/error-handling/error-handling.service";
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
-import { Observable, Subject } from 'rxjs';
-import { User } from "../models/User.model";
+import { Observable, Subject, throwError } from 'rxjs';
+import { User } from "../../models/User.model";
 
 interface Res {
   status: boolean;
   message?: String | null;
+}
+
+interface UpdateData {
+  email: string;
+  username: string;
+  newPassword: string;
+  repeatNewPassword: string;
+  messagesTo: string;
+  messagesFrom: string;
 }
 
 @Injectable({
@@ -16,7 +26,9 @@ export class AuthService {
   isLogged: boolean = false;
   userStatus: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {
+  constructor(
+    private errorService: ErrorHandlingService
+  ) {
     Parse.initialize(environment.APP_ID, environment.JS_KEY);
     (Parse as any).serverURL = "https://parseapi.back4app.com";
 
@@ -29,30 +41,24 @@ export class AuthService {
 
   private init() {
     const status = Parse.User.current() !== null;
-    // console.log(status);
-    
     this.handleStatus({ status: status });
   };
 
   register(data: any): Observable<Object> {
-    // if (data.imageData && data.imageData.length > 0) {
-    //   data.imageData = this.formatImageData(data.imageData);
-    // };
-
     return new Observable(observer => {
       const user = new Parse.User();
+
       user.set({
         username: data.username,
         email: data.email,
         password: data.password
       });
 
-      try {
-        user.save().then(data => observer.next(data));
-      } catch (error: any) {
-        console.log(`Failed to register user, with error code: ${error.message}`);
-        observer.next(error.message)
-      };
+      user.save().then(data => observer.next(data))
+        .catch(err => {
+          this.errorService.httpError("register", err.message);
+          observer.next(false);
+        });
     });
   };
 
@@ -70,7 +76,7 @@ export class AuthService {
 
           observer.next(user ? user : false);
         } catch (err: any) {
-          console.log(err.message);
+          this.errorService.httpError("login", err.message);
           observer.next(false);
         };
       })()
@@ -81,19 +87,46 @@ export class AuthService {
     return new Observable(observer => {
       (async () => {
         try {
-          Parse.User.logOut().then((data: any) => observer.next(data));
+          Parse.User.logOut().then((data: any) => {
+            observer.next(data);
+          });
         } catch (err: any) {
-          console.log(err.message);
-          observer.next(err.message);
+          this.errorService.httpError("logout", err.message)
+          observer.next();
         };
       })()
     });
   };
 
+  update(id: string, data: User): Observable<any> {
+    return new Observable(observer => {
+      const user = new Parse.Query(Parse.User);
+
+      user.get(id).then(fields => {
+        const validInput = Object.entries(data).filter((el: [string, string]) => el[1] !== "");
+        const changedInput = validInput.filter((el: [string, string]) => fields.attributes[el[0]] !== el[1]);
+        
+        if (changedInput.length > 0 && changedInput.length !== validInput.length) {
+            changedInput.forEach((el: [string, any]) => {
+              fields.set(...el);
+            });
+
+            fields.save()
+              .then(() => observer.next(true))
+              .catch(err => {
+                this.errorService.httpError("edit", err.message);
+                observer.next(false);
+              });
+        } else {
+          this.errorService.formErrors("edit", ["No fields have been changed."]);
+          observer.next(false);
+        };
+      }).catch(err => console.log(err));
+    });
+  };
+
   handleStatus(res: Res) {
     const { status, message } = res;
-    // console.log(status, message);
-
     this.userStatus.next(status);
   };
 

@@ -2,9 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { FormGroup, FormBuilder, FormControl, Validators, ValidationErrors } from "@angular/forms";
-import { AuthService } from "../../shared/services/auth.service";
-// import { SessionService } from "../../shared/services/session.service";
-
+import { AuthService } from "../../shared/services/auth/auth.service";
 
 @Component({
   selector: "app-auth-page",
@@ -67,7 +65,7 @@ export class AuthPageComponent implements OnInit {
 
     interface action {
       [key: string]: Function;
-    }
+    };
 
     const actions: action = {
       login: (data: any) => this.authService.login(data),
@@ -75,11 +73,15 @@ export class AuthPageComponent implements OnInit {
     };
 
     this.submitBlocked = true;
-    actions[this.action](this.currentForm.value).subscribe((data: any) => {
+
+    actions[this.action](this.currentForm.value).subscribe((logged: boolean) => {
       this.submitBlocked = false;
-      this.currentForm.reset();
-      this.authService.handleStatus({status: true});
-      this.router.navigate(["/home"]);
+      
+      if (logged) {
+        this.authService.handleStatus({ status: logged });
+        this.currentForm.reset();
+        this.router.navigate(["/home"]);
+      };
     });
   };
 

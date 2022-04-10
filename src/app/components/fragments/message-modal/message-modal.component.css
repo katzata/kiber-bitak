@@ -1,0 +1,68 @@
+#message-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .9);
+    /* z-index: -1; */
+}
+
+form {
+    position: relative;
+    width: 300px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e1e9f3;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);
+}
+
+button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+label {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: black;
+    /* text-align: left; */
+}
+
+span {
+    width: 254px;
+    margin-bottom: 3px;
+}
+
+#toField {
+    margin-left: 6px;
+}
+
+input[type="submit"] {
+    margin: 6px auto 0;
+    padding: 6px 18px;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+}

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpErrorsService } from './http-errors.service';
+import { GlobalErrorHandler } from './GlobalErrorHandler';
 
-describe('HttpErrorsService', () => {
-  let service: HttpErrorsService;
+describe('GlobalErrorHandler', () => {
+  let service: GlobalErrorHandler;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HttpErrorsService);
+    service = TestBed.inject(GlobalErrorHandler);
   });
 
   it('should be created', () => {

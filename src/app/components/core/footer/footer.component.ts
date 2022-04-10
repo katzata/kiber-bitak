@@ -59,24 +59,21 @@ import {
 export class FooterComponent implements OnInit {
   isOpen: boolean = false;
   offset: number = 0;
-  @ViewChild('footerBottom') footerBottom: any;
-  
-  constructor() { }
+  @ViewChild("footerBottom") footerBottom: any;
 
   ngOnInit(): void {
     this.footerBottom = document.createElement("div");
-  }
+  };
 
   ngAfterViewInit() {
     this.offset = this.footerBottom.nativeElement.offsetHeight;
-  }
+  };
 
   get stateName() {
     return this.isOpen ? "open" : "closed";
-  }
+  };
 
   toggle() {
     this.isOpen = !this.isOpen;
-    // console.log(this.input.nativeElement.value);
-  }
+  };
 };

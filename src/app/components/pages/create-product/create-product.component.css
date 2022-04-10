@@ -31,6 +31,10 @@ form {
     display: flex;
 }
 
+.double:nth-child(3) div:nth-child(1) {
+    margin-right: 3.5%;
+}
+
 .double div {
     display: flex;
     flex-direction: column;

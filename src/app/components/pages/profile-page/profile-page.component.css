@@ -13,39 +13,29 @@ h3 {
 }
 
 #profile-top {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    column-gap: 2%;
 }
 
 .top-div {
     padding: 4px 8px;
-    display: grid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #e2e2e2;
     color: #111f28;
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .4);
     border-radius: 4px;
-    /* overflow: hidden; */
-}
-
-.top-div:nth-child(1) {
-    position: relative;
-    padding-top: 10px;
 }
 
 .top-div:nth-child(1) h4 {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    padding: 0px 2px;
-    background-color: rgba(0, 0, 0, .25);
+    margin: auto;
     line-height: 16px;
-    border-radius: 0 0 4px 0;
-    border: 1px solid #111f28;
 }
 
 .top-div:nth-child(2) {
     flex-grow: 1;
-    margin: 0 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
@@ -80,9 +70,6 @@ span {
 
 svg {
     margin-top: auto;
-    /* border-radius: 2px;
-    background-color: red;
-    border: 2px solid black; */
 }
 
 #profile-bottom {
@@ -100,6 +87,11 @@ svg {
     overflow: hidden;
 }
 
+a {
+    text-decoration: none;
+    color: #111f28;
+}
+
 #profile-bottom div h4 {
     padding: 4px 0;
     background-color: #111f28;
@@ -113,4 +105,5 @@ svg {
 
 .results {
     height: 100px;
+    text-align: center;
 }

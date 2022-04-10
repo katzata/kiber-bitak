@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,19 +6,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
   title = 'kiber-bitak';
   width: number = 17;
 
-  @ViewChild("main") main: any;
+  @ViewChild("main") main!: ElementRef;
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getScrollbarWidth();
   };
 
   private getScrollbarWidth() {
-    const main: any = document.querySelector("main");
-    const calc: number = main?.offsetWidth - main.clientWidth;
+    const main = this.main.nativeElement;
+    const calc: number = main.offsetWidth - main.clientWidth;
 
     main.style.width = `calc(100% + ${calc})`;
 

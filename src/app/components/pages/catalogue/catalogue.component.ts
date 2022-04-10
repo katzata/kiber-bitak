@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { CatalogueService } from './services/catalogue.service';
 import { ViewportScroller } from '@angular/common';
 
@@ -17,7 +17,9 @@ interface SimpleObject {
 
 export class CatalogueComponent implements OnInit {
   results: Array<SimpleObject> = [];
-  bothChecked: boolean = false;
+
+  @ViewChild("price") priceButton!: HTMLInputElement;
+  @ViewChild("header") header!: ElementRef;
 
   departments: SimpleObject = {
     electronics: "Electronics",
@@ -37,8 +39,7 @@ export class CatalogueComponent implements OnInit {
 
   sortCriteria: Object = {
     name: "Name",
-    price: "Price",
-    date: "Date"
+    price: "Price"
   };
 
   sortOptions: Array<string> = [
@@ -89,33 +90,17 @@ export class CatalogueComponent implements OnInit {
   };
 
   toggleSortCriterias(target: EventTarget) {
-    const { name, value, checked } = target as HTMLInputElement;
+    const { checked } = target as HTMLInputElement;
+    const [name, price] = Array.from(document.querySelectorAll(".sort-radio-buttons")) as HTMLInputElement[];
+   
+    price.disabled = checked;
+    price.checked = false;
 
-    console.log(name, value, checked, this.searchForm);
-    
-  };
-
-  handleSubmit = () => {
-    // const user = new Parse.User();
-    // user.set("username", "test username");
-    // user.set("email", "test asd@asd.asd");
-    // user.set("password", "test password");
-    // user.set("rememberMe", "test rememberMe");
-
-    // user.signUp(null).then(
-    //   function (user: any) {
-    //     alert('User created successfully with email: ' + user.get("email"));
-    //   },
-
-    //   function (error: any) {
-    //     alert("Error " + error.code + ": " + error.message);
-    //   }
-    // );
+    if (!name.checked) name.checked = true;
   };
 
   search() {
     const { search, products, users, sortCriteria, sortOrder } = this.searchForm.value;
-    // console.log(this.searchForm.value);
     
     if (products || users) {
       this.catalogueService.search(this.searchForm.value).subscribe((data: any) => {
@@ -123,6 +108,16 @@ export class CatalogueComponent implements OnInit {
       });
     } else {
       throw new Error("You have to choose a search criteria.");
+    };
+  };
+
+  handleSort(target: EventTarget) {
+    const { value } = target as HTMLInputElement;
+
+    if (this.results.length > 0 && value !== "unsorted") {
+      console.log(this.searchForm.value);
+      
+      // this.search();
     };
   };
 

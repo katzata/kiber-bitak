@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +16,7 @@ export class HeaderComponent {
     private authService: AuthService
   ) {
     this.authService.userStatus.subscribe(() => {
+      
       this.isLogged = this.authService.isLogged;
     })
   };

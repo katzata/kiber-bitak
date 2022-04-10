@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,13 +14,21 @@ import { CatalogueComponent } from './components/pages/catalogue/catalogue.compo
 import { SectionResultsComponent } from './components/shared/section-results/section-results.component';
 import { CreateProductComponent } from './components/pages/create-product/create-product.component';
 import { HoverDirective } from './components/shared/section-results/directives/hover.directive';
-import { SectionResultsService } from './components/shared/section-results/services/section-results.service';
+// import { SectionResultsService } from './components/shared/section-results/services/section-results.service';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
-import { AuthService } from './components/shared/services/auth.service';
+import { GlobalErrorHandler } from './services/error-handling/GlobalErrorHandler';
+import { ServerErrorInterceptor } from './services/error-handling/server-error.interceptor';
 import { DetailsPageComponent } from './components/pages/product-details-page/product-details-page.component';
 import { CatalogueButtonComponent } from './components/fragments/catalogue-button/catalogue-button.component';
 import { CarouselComponent } from './components/fragments/carousel/carousel.component';
 import { CatalogueResultComponent } from './components/fragments/catalogue-result/catalogue-result.component';
+import { MessageModalComponent } from './components/fragments/message-modal/message-modal.component';
+import { ErrorModalComponent } from './components/core/error-modal/error-modal.component';
+
+import { EditProductComponent } from './components/pages/edit-product/edit-product.component';
+import { EditProfileComponent } from './components/pages/edit-profile/edit-profile.component';
+import { AuthGuardService } from './components/shared/services/auth-guard/auth-guard.service';
+import { MailBoxComponent } from './components/pages/mail-box/mail-box.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +45,12 @@ import { CatalogueResultComponent } from './components/fragments/catalogue-resul
     DetailsPageComponent,
     CatalogueButtonComponent,
     CarouselComponent,
-    CatalogueResultComponent
+    CatalogueResultComponent,
+    MessageModalComponent,
+    ErrorModalComponent,
+    EditProductComponent,
+    EditProfileComponent,
+    MailBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +59,11 @@ import { CatalogueResultComponent } from './components/fragments/catalogue-resul
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [SectionResultsService],
+  // providerite da se vidqt
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: AuthGuardService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

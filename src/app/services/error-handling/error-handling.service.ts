@@ -1,3 +1,108 @@
+import { Injectable, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, Subject, throwError } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ErrorHandlingService implements OnInit {
+  errors: Subject<string[]> = new Subject<string[]>();
+  test!: string[];
+
+  ngOnInit(): void {
+    this.errors.subscribe((value: any) => {
+      this.test = [value];
+    });
+  }
+
+  getClientMessage(error: Error): string {
+    if (!navigator.onLine) {
+      return 'No Internet Connection';
+    };
+
+    return error.message ? error.message : error.toString();
+  };
+
+  getClientStack(error: Error): string {
+    return error.stack!;
+  };
+
+  getServerMessage(error: HttpErrorResponse): string {
+    return error.message;
+  };
+
+  getServerStack(error: HttpErrorResponse): string {
+    // handle stack trace
+    return 'stack';
+  };
+
+  httpError(origin: string, err: string) {
+    // console.log("caught", err);
+    const formated = this.formatHttpError(origin, err);
+    this.errors.next([formated]);
+  };
+
+  formErrors(origin: string, err: string[]) {
+    // console.log("caught", err);
+    const formated = this.formatFormError(origin, err);
+    this.errors.next(formated);
+  };
+
+  private formatFormError(origin: string, err: string[]) {
+    let messages = err;
+    
+    if (origin === "create") {
+      messages = messages.map((el: string) => `The ${el} field is required`);
+    };
+
+    return messages;
+  };
+
+  private formatHttpError(origin: string, err: string) {
+    let message = "***" + err;
+
+    if (origin === "register") {
+      message =  "An " + err.toLocaleLowerCase().replace("for", "with");
+    };
+
+    if (origin === "login") {
+      message = err.replace("/", " or ");
+    };
+
+    if (origin === "create") {
+      message = "The " + err.replace(" is", "field is");
+    };
+
+    return message;
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import { Injectable } from '@angular/core';
 // import { HttpErrorResponse } from '@angular/common/http';
 

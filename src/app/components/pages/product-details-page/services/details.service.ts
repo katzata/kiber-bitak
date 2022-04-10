@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 import { Observable} from 'rxjs';
-import { AuthService } from 'src/app/components/shared/services/auth.service';
+import { AuthService } from "../../../shared/services/auth/auth.service";
 import { Product } from 'src/app/components/shared/models/Product.model';
 import { User } from 'src/app/components/shared/models/User.model';
 

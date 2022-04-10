@@ -1,11 +1,11 @@
-<a routerLink="/details/product/{{res['id']}}" class="result">
+<a *ngIf="res['resType'] === 'product'; else elseBlock" routerLink="/details/product/{{res['id']}}" class="result-product">
     <div class="column">
         <p>{{res["name"]}}</p>
         <div class="text-blur"></div>
     </div>
 
     <div class="column">
-        <p>{{res["department"]}}</p>
+        <p>{{res.department}}</p>
         <div class="text-blur"></div>
     </div>
 
@@ -19,3 +19,17 @@
         <div class="text-blur"></div>
     </div>
 </a>
+
+<ng-template #elseBlock>
+    <a routerLink="/profile/{{res['id']}}" class="result-user">
+        <div class="column">
+            <p>{{res["username"]}}</p>
+            <div class="text-blur"></div>
+        </div>
+
+        <div class="column">
+            <p>Ads posted: {{res.products.length}}</p>
+            <div class="text-blur"></div>
+        </div>
+    </a>
+</ng-template>

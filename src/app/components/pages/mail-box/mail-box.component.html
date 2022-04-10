@@ -1,0 +1,23 @@
+<div id="mail-box">
+    <h3>Mailbox</h3>
+    <div class="row">
+        <h4>Inbox</h4>
+
+        <div class="results">
+            <div *ngFor="let message of inbox">{{message}}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4>Sent</h4>
+
+        <div id="results">
+            <div data-status="closed" class="sent-message" *ngFor="let message of sent; let i = index" (click)="toggleMessage(i)">
+                <div class="sent-internal">
+                    <h5>Message to: {{message.recipient}}</h5>
+                    <span>{{message.message}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<h3>Edit profile</h3>
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <label for="username">
+        Username
+    </label>
+    <input type="text" formControlName="username" name="username" placeholder="John Doe">
+
+    <label for="email">
+        Email
+    </label>
+    <input type="email" formControlName="email" name="email" placeholder="johndoe@exmple.com">
+
+    <input type="submit" [disabled]="submitBlocked" value="Submit">
+</form>

@@ -1,0 +1,85 @@
+<h3>Edit a product</h3>
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="double">
+        <div>
+            <label for="name">Name*</label>
+            <input id="name" type="text" formControlName="name">
+        </div>
+
+        <div id="upload-div">
+            <label for="files" id="upload-label">
+                <span>Add images</span>
+
+                <svg viewBox="0 0 18 24">
+                    <polyline points="0,0 14,0 18,4 18,24 0,24 0,0" fill="#111f28" stroke-width="1px" stroke="black" />
+                    <polyline points="6,11 9,8 12,11" fill="none" stroke-width="0.5px" stroke="white"
+                        stroke-linecap="round" />
+                    <line x1="9" y1="8" x2="9" y2="16" stroke="white" stroke-width="0.5px" />
+                </svg>
+
+                <input type="file" #fileUpload id="files" name="files" formControlName="images"
+                    (change)="addToQueue($event)" multiple>
+            </label>
+        </div>
+    </div>
+
+    <div class="triple">
+        <div>
+            <label for="department">Department*</label>
+            <select name="department" formControlName="department" id="department">
+                <option value="" selected disabled hidden>Choose</option>
+                <option *ngFor="let dept of departments | keyvalue" value="{{dept.key}}">{{dept.value}}</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="condition">Condition*</label>
+            <select name="condition" formControlName="condition" id="condition">
+                <option value="" selected disabled hidden>Choose</option>
+                <option value="new">New</option>
+                <option value="used">Used</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="delivery">Delivery*</label>
+            <select name="delivery" formControlName="delivery" id="delivery">
+                <option value="" selected disabled hidden>Choose</option>
+                <option value="bySeller">By the seller</option>
+                <option value="byBuyer">By the buyer</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="triple">
+        <div>
+            <label for="price">Price*</label>
+            <input id="price" type="number" formControlName="price">
+        </div>
+
+        <div>
+            <label for="quantity">Quantity*</label>
+            <input id="quantity" type="number" formControlName="quantity">
+        </div>
+
+        <div>
+            <label for="location">Location*</label>
+            <input id="location" type="text" formControlName="location">
+        </div>
+    </div>
+
+    <div class="double">
+        <div>
+            <label for="description">Description*</label>
+            <textarea id="description" formControlName="description"></textarea>
+        </div>
+    </div>
+
+    <div class="double">
+        <input class="submitButton" [disabled]="submitBlocked" type="submit" value="Submit">
+        <button id="delete" (click)="deleteItem($event)">Delete</button>
+    </div>
+</form>
+
+<p>All fields marked with * are required.</p>

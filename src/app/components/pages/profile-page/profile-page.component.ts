@@ -1,21 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { User } from "../../shared/models/User.model";
-
-interface Data {
-  username: string;
-  image: string;
-  email: string;
-  cart: Array<object>;
-  messagesFrom: Array<object>;
-  messagesTo: Array<object>;
-  products: Array<object>;
-  purchases: Array<object>;
-  ratingAsBuyer: Array<number>;
-  ratingAsSeller: Array<number>;
-  sessionToken: string;
-};
 
 @Component({
   selector: 'app-profile-page',
@@ -42,6 +28,6 @@ export class ProfilePageComponent implements OnInit {
   };
 
   formatRating(ratingArr: Array<number>) {
-    return ratingArr.length > 0 ? ratingArr.reduce((a: number, b: number) => a + b) : 0
+    return ratingArr.length > 0 ? ratingArr.reduce((a: number, b: number) => a + b) / 5 : 0
   };
 };

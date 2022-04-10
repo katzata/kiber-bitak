@@ -1,9 +1,12 @@
 <div id="page">
   <app-header></app-header>
-
+  
   <main>
-    <router-outlet></router-outlet>
+    <div #main id="content">
+      <router-outlet></router-outlet>
+    </div>
+    
+    <app-error-modal></app-error-modal>
   </main>
-
   <app-footer></app-footer>
 </div>

@@ -1,0 +1,11 @@
+<div #modal id="error-modal" [@displayErrors]="stateName">
+    <button (click)="toggleVisibility(false)">
+        <svg viewBox="0 0 64 64">
+            <line x1="18" y1="18" x2="46" y2="46" stroke="rgb(245, 245, 245)" stroke-width="6px" stroke-linecap="round"></line>
+
+            <line x1="46" y1="18" x2="18" y2="46" stroke="rgb(245, 245, 245)" stroke-width="6px" stroke-linecap="round"></line>
+        </svg>
+    </button>
+
+    <p *ngFor="let err of errors">{{err}}</p>
+</div>

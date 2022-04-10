@@ -1,0 +1,57 @@
+h3 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#mail-box {
+    max-width: 480px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background-color: #e2e2e2;
+    color: #111f28;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .4);
+    overflow: hidden;
+}
+
+#mail-box div h4 {
+    padding: 4px 0;
+    background-color: #111f28;
+    color: #afb9c5;
+}
+
+#results {
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.sent-message {
+    width: 100%;
+    max-width: 100%;
+    min-height: 46px;
+    
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .4);
+    overflow: hidden;
+}
+
+.sent-internal {
+    width: 100%;
+    max-width: 100%;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e2e2e2;
+}
+
+span, h5 {
+    
+    background-color: #e2e2e2;
+}

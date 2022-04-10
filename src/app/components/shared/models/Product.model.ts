@@ -1,4 +1,5 @@
 export interface Product {
+    id: string,
     department: string,
     name: string,
     condition: string,

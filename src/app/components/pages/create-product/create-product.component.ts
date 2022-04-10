@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from "@angular/platform-browser";
+import { Router } from '@angular/router';
 import { CreateService } from './services/create.service';
-import { FormBuilder, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent {
   imageArray: Array<Object> = [];
+  submitBlocked: boolean = false;
 
   departments = {
     electronics: "Electronics",
@@ -23,36 +25,37 @@ export class CreateProductComponent implements OnInit {
   };
 
   createForm = this.formBuilder.group({
-    department: new FormControl("", [Validators.required]),
     name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    department: new FormControl("", [Validators.required]),
     condition: new FormControl("", [Validators.required]),
     delivery: new FormControl("", [Validators.required]),
-    price: new FormControl("", [Validators.required, Validators.min(0)]),
-    quantity: new FormControl("", [Validators.required, Validators.min(1)]),
+    price: new FormControl(Number, [Validators.required, Validators.min(1)]),
+    quantity: new FormControl(Number, [Validators.required, Validators.min(1)]),
     location: new FormControl("", [Validators.required, Validators.minLength(5)]),
     images: "",
     imageData: [],
-    description: new FormControl("")
+    description: new FormControl("", [Validators.required, Validators.minLength(5)])
   });
 
   constructor(
+    private router: Router,
     private titleService: Title,
     private formBuilder: FormBuilder,
     private create: CreateService
-    ) { 
-      this.titleService.setTitle("Create");
-    }
-
-  ngOnInit(): void {
-    
-  }
+  ) { 
+    this.titleService.setTitle("Create");
+  };
 
   onSubmit(): void {
-    this.create.addItem(this.createForm.value).subscribe((data: any) => {
-      // console.log("yay", data);
-      // this.createForm.reset();
+    this.submitBlocked = true;
+    this.create.addItem(this.createForm.value).subscribe((status: boolean) => {
+      if (status) {
+        this.router.navigate(["/catalogue"]);
+      };
+      
+      this.submitBlocked = false;
     });
-  }
+  };
 
   addToQueue = (event: Event) => {
     const target: EventTarget = event.target as EventTarget;
@@ -62,7 +65,7 @@ export class CreateProductComponent implements OnInit {
       this.handleFirstFive(files);
     } else {
       this.handleFirstFive(files);
-    }
+    };
   };
 
   handleFirstFive(files: FileList | null): void{

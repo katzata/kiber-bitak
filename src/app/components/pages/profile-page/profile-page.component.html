@@ -4,7 +4,6 @@
     <div id="profile-top">
         <div class="top-div">
             <h4>{{userData.username}}</h4>
-            <img src={{userData.image}} alt="user-image">
         </div>
 
         <div class="top-div">
@@ -22,7 +21,7 @@
         </div>
 
         <div class="top-div">
-            <a routerLink="/mail">
+            <a routerLink="mail/{{userData.id}}">
                 <h4>Mail</h4>
 
                 <svg viewBox="0 0 200 120">
@@ -51,23 +50,20 @@
                 <p>{{userData.unreadMail}}</p>
             </div> -->
         </div>
+
+        <div class="top-div">
+            <a routerLink="/edit/profile/{{userData.id!}}">
+                <h4>Edit profile</h4>
+            </a>
+        </div>
     </div>
 
     <div id="profile-bottom">
         <div>
-            <h4>Purchases</h4>
-            
-            <div class="results">
-                <div *ngFor="let purchase of userData.purchases">
-                    ???
-                </div>
-            </div>
-        </div>
-
-        <div>
             <h4>Your products</h4>
         
             <div class="results">
+                Under construction!!!
                 <div *ngFor="let product of userData.products">
                     ???
                 </div>

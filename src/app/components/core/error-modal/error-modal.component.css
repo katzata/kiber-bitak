@@ -1,0 +1,38 @@
+#error-modal,
+#error-modal button {
+    position: absolute;
+    background-color: rgba(0, 0, 0, .86);
+    border: 1px solid rgba(150, 0, 0, 1);
+    box-shadow: 0 0 2px 1px rgba(150, 0, 0, 1);
+}
+
+#error-modal {
+    right: 12px;
+    bottom: calc(100% + 2px);
+    padding: 12px 10px 6px;
+}
+
+#error-modal button {
+    top: -14px;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    opacity: .9;
+    border-radius: 50%;
+}
+
+p {
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'PT Serif Caption', serif; */
+    /* font-weight: bold; */
+    color: rgb(245, 245, 245);
+    text-shadow: 0 1px 4px red;
+}

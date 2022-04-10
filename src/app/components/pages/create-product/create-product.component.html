@@ -50,15 +50,10 @@
         </div>
     </div>
 
-    <div class="triple">
+    <div class="double">
         <div>
             <label for="price">Price*</label>
             <input id="price" type="number" formControlName="price">
-        </div>
-        
-        <div>
-            <label for="quantity">Quantity*</label>
-            <input id="quantity" type="number" formControlName="quantity">
         </div>
 
         <div>
@@ -74,7 +69,7 @@
         </div>
     </div>
 
-    <input class="submitButton" type="submit" value="Submit">
+    <input class="submitButton" [disabled]="submitBlocked" type="submit" value="Submit">
 </form>
 
 <p>All fields marked with * are required.</p>

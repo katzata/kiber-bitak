@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
+import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/components/shared/services/auth.service';
+import { AuthService } from "../../../shared/services/auth/auth.service";
 import { Product } from "../../../shared/models/Product.model";
-import { Url } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ export class CreateService {
   observable: any;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private errorService: ErrorHandlingService
   ) {
     Parse.initialize(environment.APP_ID, environment.JS_KEY);
     (Parse as any).serverURL = "https://parseapi.back4app.com";
@@ -24,37 +25,56 @@ export class CreateService {
       if (data.imageData && data.imageData.length > 0) {
         this.uploadImages(data.imageData).then((urls: Array<any>) => {
           data.imageData = urls;
-          console.log(data.imageData);
-          
-          this.saveProduct(data).then(res => observer.next());
+          this.saveProduct(data).then((res: any) => observer.next(true))
+            .catch((err: any) => console.log(err));
         });
       } else {
-        this.saveProduct(data).then(res => observer.next());
+        this.saveProduct(data).then((res: any) => {
+            observer.next(true);
+          })
+          .catch((err: any) => observer.next(false));
       };
     });
   };
 
-  private async saveProduct(data: Product) {
+  private saveProduct(data: Product) {
+    const errors = this.checkInput(data);
+
+    if (errors.length > 0) {
+      this.errorService.formErrors("create", errors);
+      return Promise.reject();
+    };
+
     const Products = Parse.Object.extend("Products");
     const product = new Products();
+
     product.set({
       department: data.department,
       name: data.name,
       condition: data.condition,
       delivery: data.delivery,
       price: data.price,
-      quantity: data.quantity,
       location: data.location,
       images: data.imageData ? data.imageData : [],
       description: data.description,
       seller: this.authService.userData()!.id
     });
     
-    product.save().then((data: any) => {
-      console.log(data);
-      
-    });
-  }
+    return product.save();
+  };
+
+  private checkInput(input: any) {
+    const errors = [];
+
+    for (const [field, value] of Object.entries(input)) {
+      if (field === "images" || field === "imageData") continue;
+      if (Number(value) < 1 || value === "" || value === Number) {
+        errors.push(field);
+      };
+    };
+
+    return errors;
+  };
 
   private async uploadImages(images: Array<any>) {
     const promises: Array<Parse.Object> = [];

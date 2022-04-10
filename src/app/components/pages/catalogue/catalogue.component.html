@@ -1,13 +1,13 @@
 <section>
     <h3 id="page-title">Catalogue</h3>
     
-    <div id="catalogue-top">
+    <!-- <div id="catalogue-top">
         <a *ngFor="let link of departments | keyvalue" (click)="getByDepartment(link.key)" href="javascript:void(0);">
             {{link.value}}
 
             <img src="assets/svg/{{link.key}}.svg" id="{{link.key}}" class="svg" alt="">
         </a>
-    </div>
+    </div> -->
     <!-- <app-section-results department="mostRecent"></app-section-results> -->
         
     <div id="search-section">
@@ -35,7 +35,8 @@
                     
                     <div>
                         <label *ngFor="let option of sortCriteria | keyvalue" for="option.value">
-                            <input type="radio" formControlName="sortCriteria" value={{option.key}}> {{option.value}}
+                            <input class="sort-radio-buttons" id="{{option.key}}" type="radio" formControlName="sortCriteria" value={{option.key}} (change)="handleSort($event.target!)">
+                            {{option.value}}
                         </label>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                 <div id="sort-order">
                     <span>Order</span>
                 
-                    <select formControlName="sortOrder">
+                    <select formControlName="sortOrder" (change)="handleSort($event.target!)">
                         <option *ngFor="let option of sortOptions" value="{{option}}">
                             {{option}}
                         </option>
@@ -88,13 +89,15 @@
     </div>
 
     <div id="seatch-results">
-        <div id="results-header">
+        <div id="results-header" #header>
             <p>Product name</p>
             <p>Department</p>
             <p>Condition</p>
             <p>Price</p>
         </div>
 
-        <app-catalogue-result *ngFor="let res of results" [res]="res"></app-catalogue-result>
+        <div id="results-body">
+            <app-catalogue-result *ngFor="let res of results" [res]="res"></app-catalogue-result>
+        </div>
     </div>
 </section>
