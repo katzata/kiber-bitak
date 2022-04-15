@@ -89,14 +89,6 @@ export class AuthPageComponent implements OnInit {
     return this.password === this.repeatPassword;
   };
 
-  private formData() {
-    if (this.currentPath === "/login") {
-      return this.loginForm.value;
-    } else {
-      return this.registerForm.value;
-    };
-  };
-
   private formatPath(path: string, type: string) {
     if (type === "action") {
       return path.slice(1);

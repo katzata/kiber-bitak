@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
+import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { User } from "../../shared/models/User.model";
 
@@ -9,18 +10,24 @@ import { User } from "../../shared/models/User.model";
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  userData: User;
+  userData!: User;
+  products: Array<any> = [];
 
   constructor(
     private titleService: Title,
-    private authService: AuthService
-  ) { 
-    const result = this.authService.userData()!;
-    result.ratingAsBuyer = this.formatRating(result.ratingAsBuyer);
-    result.ratingAsSeller = this.formatRating(result.ratingAsSeller);
-    
-    this.userData = result;
+    private authService: AuthService,
+    private errorService: ErrorHandlingService
+  ) {
     this.titleService.setTitle("Profile");
+
+    const result = this.authService.userData()!;
+    this.userData = result;
+
+    this.authService.getProducts()!.then((list) => {
+      this.products = list;
+    }, (err) => {
+      this.errorService.httpError("profile", err);
+    });
   }
 
   ngOnInit(): void {

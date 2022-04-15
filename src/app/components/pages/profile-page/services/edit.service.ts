@@ -33,9 +33,7 @@ export class EditService {
           });
 
         if (differences.length > 0) {
-          differences.forEach((el: [string, any]) => {
-            item.set(...el);
-          });
+          differences.forEach((el: [string, any]) => item.set(...el));
 
           item.save()
             .then(() => observer.next(true))
@@ -72,4 +70,15 @@ export class EditService {
       });
     });
   };
-}
+
+  // private formatResponse(res: any): any {
+  //   for (let i = 0; i < res.length; i++) {
+  //     res[i] = {
+  //       id: <string>res[i].id,
+  //       ...res[i].attributes
+  //     };
+  //   };
+
+  //   return res;
+  // };
+};

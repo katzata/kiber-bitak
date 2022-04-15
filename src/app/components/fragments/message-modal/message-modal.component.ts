@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { MessageService } from "../../shared/services/message/message.service";
 import { AuthService } from "../../shared/services/auth/auth.service";
@@ -40,11 +40,12 @@ import {
     ])
   ]
 })
-export class MessageModalComponent implements OnInit {
+export class MessageModalComponent {
   modalState: string = "hidden";
   submitBlocked: boolean = false;
   
   @Input() recipient!: string;
+  recipient2: string | undefined;
 
   messageForm = this.formBuilder.group({
     to: new FormControl("", [Validators.required]),
@@ -53,7 +54,6 @@ export class MessageModalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
     private messageService: MessageService
   ) {
     this.messageService.modalStatus.subscribe((value) => {
@@ -61,21 +61,17 @@ export class MessageModalComponent implements OnInit {
     });
   };
 
-  ngOnInit(): void {
-    // console.log(this.messageService.isVisible);
-  };
-
   onSubmit() {
     this.submitBlocked = true;
-    const sender = this.authService.userData()!.username;
 
-    this.messageService.sendMessage(sender, this.recipient, this.messageForm.value).subscribe(data => {
-        this.submitBlocked = false;
+    this.messageService.sendMessage(this.messageForm.value)
+      .subscribe(() => {
         this.toggleVisibility();
-    });
+        this.submitBlocked = false;
+      });
   };
 
-  toggleVisibility() {
-    this.messageService.handleStatus(false);
+  toggleVisibility(recipient?: string) {
+    this.messageService.handleStatus(false, recipient);
   };
 };

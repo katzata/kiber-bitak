@@ -1,69 +1,64 @@
-<h2>Details</h2>
 
 <section id="details" *ngIf="details">
-    <div id="details-top">
-        <div id="details-top-header">
-            <h3>{{details.name}}</h3>
+    <h2>Details</h2>
 
-            <div>
-                <p>
-                    <span>Seller: </span>
-                    <a routerLink="/details/user/{{details.seller.id}}">{{details.seller.username}}</a>
-                </p>
-
-                <p>Rating: {{details.seller.rating}}</p>
+    <div id="details-internal">
+        <div id="details-top">
+            <div id="details-top-header">
+                <h3>{{details.name}}</h3>
+        
+                <div id="seller">
+                    <p>
+                        <span>Seller: </span>
+                        <a routerLink="/details/user/{{details.seller.id}}">{{details.seller.attributes.username}}</a>
+                    </p>
+                </div>
+            </div>
+        
+            <div id="details-top-body">
+                <span id="views">{{details.views}} views</span>
+        
+                <div>
+                    <span>Department: </span>
+                    <p>{{details.department}}</p>
+                </div>
+        
+                <div>
+                    <span>Condition: </span>
+                    <p>{{details.condition}}</p>
+                </div>
+        
+                <div>
+                    <span>Price: </span>
+                    <p>{{details.price}}</p>
+                </div>
+        
+                <div>
+                    <span>Delivery: </span>
+                    <p>{{details.delivery}}</p>
+                </div>
+        
+                <div *ngIf="isLogged">
+                    <div *ngIf="isOwner; else elseBlock">
+                        <a id="edit" routerLink="/edit/product/{{details.id}}">Edit</a>
+                    </div>
+        
+                    <ng-template #elseBlock>
+                        <button id="contact-seller" (click)="contactSeller()">Contact seller</button>
+                    </ng-template>
+                </div>
+            </div>
+        
+            <div id="carousel-container">
+                <app-carousel [images]="details.images"></app-carousel>
             </div>
         </div>
-            
-        <div id="details-top-body">
-            <div>
-                <span>Department: </span>
-                <p>{{details.department}}</p>
-            </div>
         
-            <div>
-                <span>Condition: </span>
-                <p>{{details.condition}}</p>
-            </div>
-        
-            <div>
-                <span>Price: </span>
-                <p>{{details.price}}</p>
-            </div>
-        
-            <div>
-                <span>Quantity: </span>
-                <p>{{details.quantity}}</p>
-            </div>
-        
-            <div>
-                <span>Delivery: </span>
-                <p>{{details.delivery}}</p>
-            </div>
-
-            <div *ngIf="isLogged">
-                <div *ngIf="isOwner; else elseBlock">
-                    <a id="edit" routerLink="/edit/product/{{details.id}}">Edit</a>
-                 </div>
-
-                <ng-template #elseBlock>
-                    <button id="contact-seller" (click)="contactSeller()">Contact seller</button>
-                </ng-template>
-            </div>
-        </div>
-
-        <div id="carousel-container">
-            <app-carousel [images]="details.images"></app-carousel>
-
-            <div id="views">
-                <span>{{details.views}}</span> views
-            </div>
+        <div id="details-bottom">
+            <h4>Description</h4>
+            <p>{{details.description}}</p>
         </div>
     </div>
 
-    <div id="details-bottom">
-        <p>{{details.description}}</p>
-    </div>
-
-    <app-message-modal [recipient]="details.seller.username"></app-message-modal>
+    <app-message-modal [recipient]="details.seller.attributes.username"></app-message-modal>
 </section>

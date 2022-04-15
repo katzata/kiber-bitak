@@ -9,7 +9,7 @@
     /* background-color: rgba(0, 0, 0, .5); */
 }
 
-#carousel-internal {
+#carousel-bg {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -18,8 +18,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ghostwhite;
+    background-color: rgba(0, 0, 0, .7);
     overflow: hidden;
+}
+
+#carousel-internal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px; */
+    background-color: ghostwhite;
 }
 
 #close-carousel {

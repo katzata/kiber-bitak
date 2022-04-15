@@ -4,7 +4,12 @@
         <h4>Inbox</h4>
 
         <div class="results">
-            <div *ngFor="let message of inbox">{{message}}</div>
+            <div data-status="closed" class="sent-message" *ngFor="let message of inbox; let i = index" (click)="toggleMessage(i)">
+                <div class="sent-internal">
+                    <h5>Message from: {{message.senderUsername}}</h5>
+                    <span>{{message.message}}</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -14,7 +19,7 @@
         <div id="results">
             <div data-status="closed" class="sent-message" *ngFor="let message of sent; let i = index" (click)="toggleMessage(i)">
                 <div class="sent-internal">
-                    <h5>Message to: {{message.recipient}}</h5>
+                    <h5>Message to: {{message.recipientUsername}}</h5>
                     <span>{{message.message}}</span>
                 </div>
             </div>

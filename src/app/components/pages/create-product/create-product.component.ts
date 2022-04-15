@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { Router } from '@angular/router';
 import { CreateService } from './services/create.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 
 @Component({
   selector: 'app-create-product',
@@ -30,7 +31,6 @@ export class CreateProductComponent {
     condition: new FormControl("", [Validators.required]),
     delivery: new FormControl("", [Validators.required]),
     price: new FormControl(Number, [Validators.required, Validators.min(1)]),
-    quantity: new FormControl(Number, [Validators.required, Validators.min(1)]),
     location: new FormControl("", [Validators.required, Validators.minLength(5)]),
     images: "",
     imageData: [],
@@ -41,13 +41,21 @@ export class CreateProductComponent {
     private router: Router,
     private titleService: Title,
     private formBuilder: FormBuilder,
-    private create: CreateService
+    private create: CreateService,
+    private errorService: ErrorHandlingService
   ) { 
     this.titleService.setTitle("Create");
   };
 
   onSubmit(): void {
     this.submitBlocked = true;
+    const errors = this.checkInput(this.createForm.value);
+
+    if (errors.length > 0) {
+      this.submitBlocked = false;
+      return this.errorService.formErrors("create", errors);
+    };
+
     this.create.addItem(this.createForm.value).subscribe((status: boolean) => {
       if (status) {
         this.router.navigate(["/catalogue"]);
@@ -55,6 +63,19 @@ export class CreateProductComponent {
       
       this.submitBlocked = false;
     });
+  };
+
+  private checkInput(input: any) {
+    const errors = [];
+
+    for (const [field, value] of Object.entries(input)) {
+      if (field === "images" || field === "imageData") continue;
+      if (Number(value) < 1 || value === "" || value === Number) {
+        errors.push(field);
+      };
+    };
+
+    return errors;
   };
 
   addToQueue = (event: Event) => {

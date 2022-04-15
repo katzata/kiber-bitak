@@ -84,7 +84,7 @@ export class EditService {
         
         if (confirmation) {
           item.destroy()
-            .then(() => observer.next(true))
+            .then((data) => observer.next(data))
             .catch(err => {
               this.errorService.httpError("delete", err.message);
               observer.next(false);

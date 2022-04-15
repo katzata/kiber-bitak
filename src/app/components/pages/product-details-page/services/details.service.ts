@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 import { Observable} from 'rxjs';
 import { AuthService } from "../../../shared/services/auth/auth.service";
+import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 import { Product } from 'src/app/components/shared/models/Product.model';
 import { User } from 'src/app/components/shared/models/User.model';
 
@@ -13,7 +14,8 @@ export class DetailsService {
   id: string = "";
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private errorService: ErrorHandlingService
   ) {
     Parse.initialize(environment.APP_ID, environment.JS_KEY);
     (Parse as any).serverURL = "https://parseapi.back4app.com";
@@ -24,30 +26,26 @@ export class DetailsService {
       const query = new Parse.Query("Products");
       const user = new Parse.Query(Parse.User);
       
-      query.equalTo("objectId", productId);
-      
-      try {
-        query.find().then(queryData => {
-          const res = this.formatResponse(queryData)[0];
-          
-          user.equalTo("objectId", res.seller);
-          user.find().then(userData => {
-            const { id, username, ratingAsSeller } = this.formatResponse(userData)[0];
-            const rating = ratingAsSeller.length > 0 ? ratingAsSeller.reduce((a: number, b: number) => a + b) : 0;
-            
-            res.seller = {
-              id,
-              username,
-              rating
-            };
+      query.get(productId).then(queryData => {
+        const views = queryData.attributes["views"];
+        
+        queryData.set("views", views + 1);
 
-            observer.next(res);
-          });
+        Promise.all([
+          user.get(queryData.attributes["seller"].id),
+          queryData.save()
+        ]).then(values => {
+          const [ user, product ] = values;
+
+          const formated = this.formatResponse([product])[0];
+          formated.seller = user;
+
+          observer.next(formated);
+        }).catch((err: any) => {
+          this.errorService.httpError("details", err);
+          observer.next(false);
         });
-        observer.next()
-      } catch (error: any) {
-        alert(`Failed to retrieve the object, with error code: ${error.message}`);
-      };
+      });
     });
   };
 

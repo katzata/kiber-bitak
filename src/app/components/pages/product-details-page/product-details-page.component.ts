@@ -28,19 +28,19 @@ export class DetailsPageComponent implements OnInit {
     
     this.route.params.subscribe(params => {
       const id = params['id'];
-
+      
       this.detailsService.getDetails(id).subscribe((data: Product) => {
-        this.isOwner = this.authService.userData()!.id === data.seller.id;
+        this.isOwner = this.authService.checkOwnership(data.seller);
         this.details = data;
       });
     });
   };
 
   ngOnInit(): void {
-    // console.log(this.authService.isLogged);
+    console.log(this.authService.isLogged);
   };
 
   contactSeller() {
-    this.messageService.handleStatus(true);
+    this.messageService.handleStatus(true, this.details?.seller);
   };
 };

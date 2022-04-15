@@ -7,20 +7,6 @@
         </div>
 
         <div class="top-div">
-            <h4>Ratings</h4>
-            
-            <div>
-                <p>as buyer</p>
-                <span>{{userData.ratingAsBuyer}}</span>
-            </div>
-
-            <div>
-                <p>as seller</p>
-                <span>{{userData.ratingAsSeller}}</span>
-            </div>
-        </div>
-
-        <div class="top-div">
             <a routerLink="mail/{{userData.id}}">
                 <h4>Mail</h4>
 
@@ -63,10 +49,11 @@
             <h4>Your products</h4>
         
             <div class="results">
-                Under construction!!!
-                <div *ngFor="let product of userData.products">
-                    ???
-                </div>
+                <a *ngFor="let product of products" href="/details/product/{{product.id}}">
+                    <p>{{product.attributes.name}}</p>
+                    <p>{{product.attributes.views}} views</p>
+                    <p>Created on: {{product.createdAt.toLocaleDateString()}}</p>
+                </a>
             </div>
         </div>
     </div>

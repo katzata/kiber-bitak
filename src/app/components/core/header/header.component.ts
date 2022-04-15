@@ -16,7 +16,6 @@ export class HeaderComponent {
     private authService: AuthService
   ) {
     this.authService.userStatus.subscribe(() => {
-      
       this.isLogged = this.authService.isLogged;
     })
   };

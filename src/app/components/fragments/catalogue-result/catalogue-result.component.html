@@ -1,4 +1,4 @@
-<a *ngIf="res['resType'] === 'product'; else elseBlock" routerLink="/details/product/{{res['id']}}" class="result-product">
+<a *ngIf="res['resType'] === 'products'; else elseBlock" routerLink="/details/product/{{res['id']}}" class="result-product">
     <div class="column">
         <p>{{res["name"]}}</p>
         <div class="text-blur"></div>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="column">
-            <p>Ads posted: {{res.products.length}}</p>
+            <p>Products on sale: {{res.products.length}}</p>
             <div class="text-blur"></div>
         </div>
     </a>

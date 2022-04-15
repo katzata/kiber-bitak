@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 import { Observable, Subject, throwError } from 'rxjs';
 import { User } from "../../models/User.model";
+import { Product } from "../../models/Product.model";
 
 interface Res {
   status: boolean;
@@ -13,8 +14,6 @@ interface Res {
 interface UpdateData {
   email: string;
   username: string;
-  newPassword: string;
-  repeatNewPassword: string;
   messagesTo: string;
   messagesFrom: string;
 }
@@ -54,7 +53,7 @@ export class AuthService {
         password: data.password
       });
 
-      user.save().then(data => observer.next(data))
+      user.save().then(data => observer.next(true))
         .catch(err => {
           this.errorService.httpError("register", err.message);
           observer.next(false);
@@ -68,15 +67,16 @@ export class AuthService {
         try {
           const user = await Parse.User.logIn(data.email, data.password);
 
-          Parse.User.become(user.attributes["sessionToken"]).then(function (user) {
-            console.log(localStorage);
-          }, function (error) {
-            console.log("The token could not be validated." + error);
+          Parse.User.become(user.attributes["sessionToken"]).then(() => {
+            // console.log(localStorage);
+          }, (err: any) => {
+            this.errorService.httpError("login", err);
+            console.log("The token could not be validated." + err);
           });
 
           observer.next(user ? user : false);
         } catch (err: any) {
-          this.errorService.httpError("login", err.message);
+          this.errorService.httpError("login", err);
           observer.next(false);
         };
       })()
@@ -98,10 +98,16 @@ export class AuthService {
     });
   };
 
-  update(id: string, data: User): Observable<any> {
+  checkOwnership(seller: User) {
+    const user = Parse.User.current();
+    return seller.id === user?.id;
+  };
+
+  update(id: string, data: UpdateData): Observable<any> {
     return new Observable(observer => {
       const user = new Parse.Query(Parse.User);
-
+      console.log(data);
+      
       user.get(id).then(fields => {
         const validInput = Object.entries(data).filter((el: [string, string]) => el[1] !== "");
         const changedInput = validInput.filter((el: [string, string]) => fields.attributes[el[0]] !== el[1]);
@@ -125,6 +131,24 @@ export class AuthService {
     });
   };
 
+  updateProducts(product: Product) {
+    const user = Parse.User.current();
+    const products = user?.get("products");
+
+    const match = products.filter((el: any) => el.id === product.id)[0];
+
+    if (match) {
+      console.log("yay", match);
+      products.splice(product, 1);
+    } else {
+      products.push(product);
+    };
+
+    user?.set("products", products);
+  
+    return user?.save();
+  }
+
   handleStatus(res: Res) {
     const { status, message } = res;
     this.userStatus.next(status);
@@ -134,24 +158,46 @@ export class AuthService {
     const user = Parse.User.current();
 
     if (user) {
-      const data = user.attributes;
-
-      return {
-        id: user.id,
-        cart: data["cart"],
-        email: data["email"],
-        image: data["image"],
-        messagesFrom: data["messagesFrom"],
-        messagesTo: data["messagesTo"],
-        products: data["products"],
-        purchases: data["purchases"],
-        ratingAsBuyer: data["ratingAsBuyer"],
-        ratingAsSeller: data["ratingAsSeller"],
-        sessionToken: data["sessionToken"],
-        username: data["username"],
-      };
+      const formated = this.formatResponse([user])[0];
+      formated.products = formated.products.map((el: any) => this.formatResponse([el])[0])
+      
+      return formated;
     };
     
     return null;
+  };
+
+  getUser(id: any) {
+    const query = new Parse.Query(Parse.User);
+    query.equalTo("objectId", id);
+    return query.find();
+  };
+
+  userDataRaw(){
+    return Parse.User.current();
+  };
+
+  getProducts() {
+    const user = Parse.User.current();
+
+    if (user) {
+      const formated = this.formatResponse([user])[0];
+      const products = formated.products
+      
+      return Parse.Object.fetchAll(products, {});
+    } else {
+      return Promise.reject("profile");
+    };
+  };
+
+  private formatResponse(res: any): any {
+    for (let i = 0; i < res.length; i++) {
+      res[i] = {
+        id: <string>res[i].id,
+        ...res[i].attributes
+      };
+    };
+
+    return res;
   };
 };

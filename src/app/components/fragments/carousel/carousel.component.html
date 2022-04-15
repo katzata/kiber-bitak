@@ -1,105 +1,105 @@
 <div id="carousel" [style.position]="carouselPosition">
-    <div id="carousel-internal">
-        <img
-            *ngFor="let image of images; let i = index"
-            #images
-            src={{image}}
-            alt="product image"
-            [ngStyle]="{
-                'transform': 'translateX(' + (i * 120) + 'vw)'
-            }"
-            (transitionend)="onTransitionEnd(i)"
-        >
+    <div id="carousel-bg">
+        <div id="carousel-internal" [ngStyle]="internalStyle">
+            <img
+                *ngFor="let image of images; let i = index"
+                #images
+                src={{image}}
+                alt="product image"
+                [ngStyle]="{'transform': 'translateX(' + (i * 120) + 'vw)'}"
+                (transitionend)="onTransitionEnd(i)"
+            >
 
-        <button class="carousel-button-l" (click)="changeImage('prev')">
-            <svg viewBox="-10 -10 120 120">
-                <line 
-                    x1="6" y1="50" x2="92" y2="50"
-                    stroke="black"
-                    stroke-width="12px"
-                    stroke-linecap="round"
-                />
+            <button class="carousel-button-l" (click)="changeImage('prev')">
+                <svg viewBox="-10 -10 120 120">
+                    <line 
+                        x1="6" y1="50" x2="92" y2="50"
+                        stroke="black"
+                        stroke-width="12px"
+                        stroke-linecap="round"
+                    />
 
-                <polyline
-                    points="50,30 92,50 50,70"
-                    stroke="black"
-                    fill="none"
-                    stroke-width="12px"
-                    stroke-linecap="round"
-                />
-            </svg>
-        </button>
+                    <polyline
+                        points="50,30 92,50 50,70"
+                        stroke="black"
+                        fill="none"
+                        stroke-width="12px"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </button>
 
-        <button class="carousel-button-r" (click)="changeImage('next')">
-            <svg viewBox="-10 -10 120 120">
-                <line 
-                    x1="6" y1="50" x2="92" y2="50"
-                    stroke="black"
-                    stroke-width="12px"
-                    stroke-linecap="round"
-                />
+            <button class="carousel-button-r" (click)="changeImage('next')">
+                <svg viewBox="-10 -10 120 120">
+                    <line 
+                        x1="6" y1="50" x2="92" y2="50"
+                        stroke="black"
+                        stroke-width="12px"
+                        stroke-linecap="round"
+                    />
 
-                <polyline
-                    points="50,30 92,50 50,70"
-                    stroke="black"
-                    fill="none"
-                    stroke-width="12px"
-                    stroke-linecap="round"
-                />
-            </svg>
-        </button>
+                    <polyline
+                        points="50,30 92,50 50,70"
+                        stroke="black"
+                        fill="none"
+                        stroke-width="12px"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </button>
 
-        <button id="close-carousel">
-            <svg viewBox="0 0 400 400">
-                <line 
-                    x1="40" y1="40" x2="360" y2="360"
-                    stroke="black"
-                    stroke-width="66px"
-                    stroke-linecap="round"
-                />
+            <button id="close-carousel">
+                <svg viewBox="0 0 400 400">
+                    <line 
+                        x1="40" y1="40" x2="360" y2="360"
+                        stroke="black"
+                        stroke-width="66px"
+                        stroke-linecap="round"
+                    />
 
-                <line
-                    x1="40" y1="360" x2="360" y2="40"
-                    stroke="black"
-                    stroke-width="66px"
-                    stroke-linecap="round"
-                />
-            </svg>
-        </button>
+                    <line
+                        x1="40" y1="360" x2="360" y2="40"
+                        stroke="black"
+                        stroke-width="66px"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </button>
 
-        <div id="current-image-container" *ngIf="images.length > 1">
-            <div class="current-image-dot" *ngFor="let img of images"></div>
+            <div id="current-image-container" *ngIf="images.length > 1">
+                <div class="current-image-dot" *ngFor="let img of images"></div>
+            </div>
+
+            <button id="toggle-button" (click)="toggleSize()">
+                <svg viewBox="0 0 400 400">
+                    <rect
+                        x="0"
+                        y="0"
+                        width="400"
+                        height="400"
+                        rx="30"
+                        fill="rgb(185, 185, 185)"
+                        stroke="white"
+                        stroke-width="40px"
+                    />
+
+                    <circle
+                        cx="145"
+                        cy="145"
+                        r="100"
+                        fill="none"
+                        stroke="black"
+                        stroke-width="34px"
+                    />
+
+                    <line
+                        x1="220" y1="220" x2="350" y2="350"
+                        stroke="black"
+                        stroke-width="34px"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </button>
         </div>
-
-        <button id="toggle-button" (click)="toggleSize()">
-            <svg viewBox="0 0 400 400">
-                <rect
-                    x="0"
-                    y="0"
-                    width="400"
-                    height="400"
-                    rx="30"
-                    fill="rgb(185, 185, 185)"
-                    stroke="white"
-                    stroke-width="40px"
-                />
-
-                <circle
-                    cx="145"
-                    cy="145"
-                    r="100"
-                    fill="none"
-                    stroke="black"
-                    stroke-width="34px"
-                />
-
-                <line
-                    x1="220" y1="220" x2="350" y2="350"
-                    stroke="black"
-                    stroke-width="34px"
-                    stroke-linecap="round"
-                />
-            </svg>
-        </button>
     </div>
 </div>

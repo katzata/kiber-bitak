@@ -1,14 +1,26 @@
 import { Component, AfterViewInit, QueryList, Input, ViewChildren, ElementRef, OnInit } from '@angular/core';
 
+interface IntStyle {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-
 export class CarouselComponent implements AfterViewInit {
   offset: number = 0;
   carouselPosition: string = "relative";
+  internalStyle: IntStyle = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  };
   
   @Input() images: Array<string> = [];
 
@@ -22,6 +34,9 @@ export class CarouselComponent implements AfterViewInit {
     } else {
       this.carouselPosition = "relative";
     };
+
+    this.carouselInternalStyle(this.carouselPosition)
+    console.log(this.internalStyle);
   };
 
   changeImage(dir: string) {
@@ -65,4 +80,19 @@ export class CarouselComponent implements AfterViewInit {
   onTransitionEnd(index: number) {
     Array.from(document.querySelectorAll("img"))[index].style.transitionDuration = "0s";
   };
+
+  carouselInternalStyle(currentState: string) {
+    const states: any = {
+      relative: {
+        width: "100%",
+        height: "100%"
+      },
+      static: {
+        width: "88%",
+        height: "88%"
+      }
+    };
+
+    this.internalStyle = states[currentState];
+   };
 };

@@ -10,15 +10,13 @@ interface SearchQuery {
   searchCriteria: string;
   sortCriteria: string;
   sortOrder?: string;
+  itemsPerPage?: string;
 };
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogueService {
-  observable: any;
-
   constructor() {
     Parse.initialize(environment.APP_ID, environment.JS_KEY);
     (Parse as any).serverURL = "https://parseapi.back4app.com";
@@ -55,108 +53,54 @@ export class CatalogueService {
   };
 
   search(query: SearchQuery) {
-    const { search, products, users, searchCriteria, sortCriteria, sortOrder } = query;
-    const resultsLimit = 10;
+    const { search, products, users, searchCriteria, sortCriteria, sortOrder, itemsPerPage } = query;
 
     return new Observable(observer => {
-      if (search.length < 3) {
-        return observer.next([]);
-      };
-
-      if (query.products && query.users) {
+      if (query.users && query.products) {
         Promise.all([
-          this.queryProducts(query, resultsLimit),
-          this.queryUsers(query, resultsLimit)
+          this.queryProducts(query),
+          this.queryUsers(query)
         ]).then((values) => {
-          
-          const formated = values.map(this.formatResponse);
-          const merged = this.mergeQueries(formated, sortOrder!);
-          
-          observer.next(merged);
+          const formated = values.map((el: any) => this.formatResponse(el)).flat();
+          observer.next(formated);
         });
-        // this.queryProducts(query, 1).then(data => {
-        //   observer.next(this.formatResponse(data));
-        // });
-
-        // this.queryUsers(query, 1).then(data => {
-        //   observer.next(this.formatResponse(data));
-        // });
-        return;
+      } else if (query.products) {
+        this.queryProducts(query)
+          .then((data: any) => {
+            observer.next(this.formatResponse(data));
+          });
+      } else if (query.users) {
+        this.queryUsers(query)
+          .then((data: any) => {
+            observer.next(this.formatResponse(data));
+          });
       };
-
-      if (query.products) {
-        this.queryProducts(query, resultsLimit).then(data => {
-          observer.next(this.formatResponse(data));
-        });
-      };
-
-      // if (query.users) {
-      //   this.queryUsers(query).then(data => {
-      //     observer.next(data);
-      //   });
-      // };
     });
   };
 
-  queryProducts(productQuery: any, limit: number) {
-    const { search, products, users, searchCriteria, sortCriteria } = productQuery;
+  queryProducts(productQuery: any) {
     const query = new Parse.Query("Products");
-    const pattern = new RegExp(search, "i")
+    const pattern = new RegExp(productQuery.search, "i")
    
     query.matches("name", pattern);
-    query.limit(limit);
-
-    if (sortCriteria === "ascending") query.ascending(search);
-    if (sortCriteria === "descending") query.descending(search);
 
     return query.find();
   };
 
-  queryUsers(usersQuery: any, limit: number) {
-    const { search, products, users, searchCriteria, sortCriteria } = usersQuery;
+  queryUsers(usersQuery: any) {
     const query = new Parse.Query(Parse.User);
-    const pattern = new RegExp(search, "i")
+    const pattern = new RegExp(usersQuery.search, "i");
     
     query.matches("username", pattern);
-    query.limit(limit);
 
-    if (sortCriteria === "ascending") {
-      query.ascending(searchCriteria === "name" ? search : "price")
-    };
-
-    if (sortCriteria === "descending") {
-      query.descending(searchCriteria === "name" ? search : "price")
-    };
-
-
-    try {
-      return query.find();
-    } catch (err: any) {
-      throw new Error("Failed to retrieve the object: " + err);
-    };
-  };
-
-  mergeQueries(queries: Array<object>, sortOrder: string) {
-    let merged = queries.flat();
-
-
-    if (sortOrder !== "unsorted") {
-      merged.sort((a: any, b: any) => {
-        const t1 = (a.name || a.username).toUpperCase();
-        const t2 = (b.name || b.username).toUpperCase();
-
-        return sortOrder === "ascending" ? t1.localeCompare(t2) : t2.localeCompare(t1);
-      });
-    };
-    
-    return merged;
+    return query.find();
   };
 
   private formatResponse(res: any): any {
     for (let i = 0; i < res.length; i++) {
       res[i] = {
         id: res[i].id,
-        resType: res[i].attributes.hasOwnProperty("username") ? "user" : "product",
+        resType: res[i].className.toLocaleLowerCase(),
         ...res[i].attributes
       };
     };

@@ -18,15 +18,7 @@ export class EditProfileComponent implements OnInit {
     email: new FormControl("", {
       validators: [Validators.required, Validators.email],
       updateOn: 'blur'
-    }),
-    newPassword: new FormControl("", {
-      validators: [Validators.required, Validators.minLength(6)],
-      updateOn: 'blur'
-    }),
-    repeatNewPassword: new FormControl("", {
-      validators: [Validators.required, Validators.minLength(6)],
-      updateOn: 'blur'
-    }),
+    })
   });
 
   constructor(

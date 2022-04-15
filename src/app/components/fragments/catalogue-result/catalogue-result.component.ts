@@ -18,8 +18,9 @@ export class CatalogueResultComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.res);
     // this.res.subscribe((params: any) => {
+    //   console.log("x");
       
-    //   // this.name = params['name'];
+      // this.name = params['name'];
     // });
     
   }

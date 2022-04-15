@@ -21,12 +21,12 @@
                 <div id="search-criteria">
                     <label id="criteria-label" for="products">
                         Products
-                        <input type="checkbox" formControlName="products" value="Products">
+                        <input type="checkbox" formControlName="products" value="Products" (change)="handleSearchCriterias($event.target!)">
                     </label>
                     
                     <label id="criteria-label" for="users">
                         Users
-                        <input type="checkbox" formControlName="users" value="Users" (click)="toggleSortCriterias($event.target!)">
+                        <input type="checkbox" formControlName="users" value="Users" (change)="handleSearchCriterias($event.target!)">
                     </label>
                 </div>
 
@@ -35,20 +35,30 @@
                     
                     <div>
                         <label *ngFor="let option of sortCriteria | keyvalue" for="option.value">
-                            <input class="sort-radio-buttons" id="{{option.key}}" type="radio" formControlName="sortCriteria" value={{option.key}} (change)="handleSort($event.target!)">
+                            <input class="sort-radio-buttons" id="{{option.key}}" type="radio" formControlName="sortCriteria" value={{option.key}} (change)="handleSortCriterias()">
                             {{option.value}}
                         </label>
                     </div>
                 </div>
 
                 <div id="sort-order">
-                    <span>Order</span>
-                
-                    <select formControlName="sortOrder" (change)="handleSort($event.target!)">
-                        <option *ngFor="let option of sortOptions" value="{{option}}">
-                            {{option}}
-                        </option>
-                    </select>
+                    <label for="sortOrder">
+                        Order
+                        <select name="sortOrder" formControlName="sortOrder" (change)="handleSortCriterias()">
+                            <option *ngFor="let option of sortOptions" value="{{option}}">
+                                {{option}}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label for="itemsPerPage">
+                        Items per page
+                        <select name="itemsPerPage" formControlName="itemsPerPage" (change)="handleSortCriterias()">
+                            <option *ngFor="let option of itemsPerPage" value="{{option}}">
+                                {{option}}
+                            </option>
+                        </select>
+                    </label>
                 </div>
             </div>
         </form>
@@ -97,7 +107,17 @@
         </div>
 
         <div id="results-body">
-            <app-catalogue-result *ngFor="let res of results" [res]="res"></app-catalogue-result>
+            <app-catalogue-result *ngFor="let res of results[pages['current']]" [res]="res"></app-catalogue-result>
+        </div>
+
+        <div id="pagination-buttons" *ngIf="paginationVisible">
+            <input
+                class="page-button"
+                *ngFor="let item of pages['buttonArray']; let i = index"
+                type="button"
+                value="{{i + 1}}"
+                (click)="changePage(i)"
+            />
         </div>
     </div>
 </section>

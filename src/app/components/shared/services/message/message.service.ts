@@ -11,6 +11,7 @@ import { ErrorHandlingService } from 'src/app/services/error-handling/error-hand
 export class MessageService {
   isVisible: boolean = false;
   modalStatus: Subject<boolean> = new Subject<boolean>();
+  recipient: any;
 
   constructor(
     private authService: AuthService,
@@ -26,55 +27,98 @@ export class MessageService {
     this.handleStatus(true);
   };
 
-  sendMessage(
-      sender: string,
-      recipient: string,
-      messageText: any
-    ): Observable<any> {
+  sendMessage(messageText: any): Observable<any> {
     return new Observable(observer => {
-      console.log(sender, recipient, messageText);
-      
       if (messageText.length < 1) {
         return this.errorService.formErrors("message", ["The message field can not be empty."]);
       };
-
-      const Messages = Parse.Object.extend("Messages");
-      const message = new Messages();
-
-      message.set({
-        sender: this.authService.userData()!.id,
-        recipient: recipient,
-        message: messageText.message
-      });
       
-      message.save()
-        .then((data: any) => observer.next(true))
-        .catch((err: any) => {
-          this.errorService.httpError("message", err);
-          observer.next(false);
+      this.authService.getUser(this.recipient.id).then((data: any) => {
+        const Messages = Parse.Object.extend("Messages");
+        const message = new Messages();
+
+        message.set({
+          senderId: this.authService.userData().id,
+          senderUsername: this.authService.userData().username,
+          recipientId: this.recipient.id,
+          recipientUsername: data[0].get("username"),
+          message: messageText.message
         });
+
+        message.save()
+          .then(() => {
+            console.log("z");
+            
+            observer.next(true)})
+          .catch((err: any) => {
+            this.errorService.httpError("message", err);
+            observer.next(false);
+          });
+      })
     });
   };
 
-  getMail(id: string): Observable < any > {
-      return new Observable(observer => {
-        const inbox = new Parse.Query("Messages");
-        inbox.equalTo("recipient", id);
+  getMail(): Observable < any > {
+    return new Observable(observer => {
+      const { id, username } = this.authService.userData()!;
 
-        const sent = new Parse.Query("Messages");
-        sent.equalTo("sender", id);
+      const inbox = new Parse.Query("Messages");
+      inbox.equalTo("recipientId", id);
 
-        Promise.all([
-            inbox.find(), sent.find()
-          ]).then((values) => {
-            const formated = values.map((el: any) => this.formatResponse(el))
-            observer.next(values);
-        });
+      const sent = new Parse.Query("Messages");
+      sent.equalTo("senderId", id);
+
+      Promise.all([
+          inbox.find(),
+          sent.find()
+        ]).then((values) => {
+          let [inbox, sent] = values;
+          inbox = this.formatResponse(inbox);
+          sent = this.formatResponse(sent);
+
+          // values[0].map((el: any) => this.formatResponse(el));
+          // values[1].map((el: any) => this.formatResponse(el));
+          console.log(inbox, sent);
+          
+          // Promise.all([
+          //   Parse.Object.fetchAll([...inbox], {}),
+          //   Parse.Object.fetchAll([...sent], {})
+          // ])
+          // .then((el: any) => {
+          //   console.log(el);
+            
+          // })
+          // .catch((err: any) => console.log(err));
+          // console.log(inbox.filter((a: any, b: any) => inbox.include(a.id) === b.id));
+          
+          // const formated = values.map((el: any) => this.formatResponse(el))
+          observer.next(values);
       });
+    });
   };
 
-  handleStatus(res: any) {
-    this.modalStatus.next(res);
+  handleUsernames(values: Array<any>) {
+    const [inbox, sent] = values;
+    const different = [[], []] as Array<any>;
+
+    inbox.forEach((el: any) => {
+      if (!different[0].includes(el.get("sender"))) {
+        different[0].push(el.get("sender"));
+      };
+    });
+
+    sent.forEach((el: any) => {
+      if (!different[1].includes(el.get("recipient"))) {
+        different[1].push(el.get("recipient"));
+      };
+    });
+    
+    return different;
+  };
+
+  handleStatus(status: boolean, recipient?: string) {
+    this.recipient = recipient;
+    this.modalStatus.next(status);
   };
 
   private formatResponse(res: any): any {

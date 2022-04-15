@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
+import { AuthService } from '../../../shared/services/auth/auth.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 import { Observable } from 'rxjs';
-import { AuthService } from "../../../shared/services/auth/auth.service";
 import { Product } from "../../../shared/models/Product.model";
 
 @Injectable({
@@ -25,29 +25,38 @@ export class CreateService {
       if (data.imageData && data.imageData.length > 0) {
         this.uploadImages(data.imageData).then((urls: Array<any>) => {
           data.imageData = urls;
-          this.saveProduct(data).then((res: any) => observer.next(true))
-            .catch((err: any) => console.log(err));
+
+          this.saveProduct(data)?.then((res: any) => observer.next(true))
+            .catch((err: any) => {
+              this.errorService.httpError("create", err);
+              observer.next(true);
+            });
         });
       } else {
-        this.saveProduct(data).then((res: any) => {
+        this.saveProduct(data)?.then((res: any) => {
             observer.next(true);
           })
-          .catch((err: any) => observer.next(false));
+          .catch((err: any) => {
+            this.errorService.httpError("create", err);
+            observer.next(false);
+          });
       };
     });
   };
 
   private saveProduct(data: Product) {
-    const errors = this.checkInput(data);
+    // const errors = this.checkInput(data);
 
-    if (errors.length > 0) {
-      this.errorService.formErrors("create", errors);
-      return Promise.reject();
-    };
+    // if (errors.length > 0) {
+    //   // this.errorService.formErrors("create", errors);
+    //   throw new Error("asd");
+      
+    //   // return Promise.reject();
+    // };
 
     const Products = Parse.Object.extend("Products");
     const product = new Products();
-
+    
     product.set({
       department: data.department,
       name: data.name,
@@ -57,24 +66,39 @@ export class CreateService {
       location: data.location,
       images: data.imageData ? data.imageData : [],
       description: data.description,
-      seller: this.authService.userData()!.id
+      seller: Parse.User.current()
     });
+
+    return product.save().then((productRes: Product) => {
+        return this.authService.updateProducts(productRes);
+      })
+      .catch((err: any) => {
+        return this.errorService.httpError("create", err);
+      });
+  };
+
+  private saveUser() {
+    const user = Parse.User.current();
+    const products = user?.attributes["products"];
     
-    return product.save();
+    user?.set("products", products);
+    console.log(products);
+    
+    return user?.save();
   };
 
-  private checkInput(input: any) {
-    const errors = [];
+  // private checkInput(input: any) {
+  //   const errors = [];
 
-    for (const [field, value] of Object.entries(input)) {
-      if (field === "images" || field === "imageData") continue;
-      if (Number(value) < 1 || value === "" || value === Number) {
-        errors.push(field);
-      };
-    };
+  //   for (const [field, value] of Object.entries(input)) {
+  //     if (field === "images" || field === "imageData") continue;
+  //     if (Number(value) < 1 || value === "" || value === Number) {
+  //       errors.push(field);
+  //     };
+  //   };
 
-    return errors;
-  };
+  //   return errors;
+  // };
 
   private async uploadImages(images: Array<any>) {
     const promises: Array<Parse.Object> = [];

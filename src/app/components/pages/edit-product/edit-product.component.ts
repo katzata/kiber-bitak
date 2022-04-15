@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { Router } from '@angular/router';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { EditService } from './services/edit.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -42,6 +43,7 @@ export class EditProductComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private formBuilder: FormBuilder,
+    private authService: AuthService,
     private editService: EditService
   ) {
     this.titleService.setTitle("Edit");
@@ -76,15 +78,16 @@ export class EditProductComponent implements OnInit {
 
   deleteItem(e: Event) {
     e.preventDefault();
-
     this.editService.deleteProduct(this.id, this.editForm.value)
-      .subscribe((status: boolean) => {
-      if (status) {
-        this.router.navigate(["/catalogue"]);
-      };
+      .subscribe((product: any) => {
+        this.authService.updateProducts(product);
+          
+        if (product) {
+          this.router.navigate(["/catalogue"]);
+        };
 
-      this.submitBlocked = false;
-    });
+        this.submitBlocked = false;
+      });
   }
 
   addToQueue = (event: Event) => {

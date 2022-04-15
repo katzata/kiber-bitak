@@ -1,23 +1,26 @@
 <div id="message-modal" [@displayModal]="modalState">
-    <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+    <div id="modal-internal">
         <button (click)="toggleVisibility()">
             <svg viewBox="0 0 64 64">
                 <line x1="18" y1="18" x2="46" y2="46" stroke="rgb(68, 68, 68)" stroke-width="6px" stroke-linecap="round"></line>
-            
+        
                 <line x1="46" y1="18" x2="18" y2="46" stroke="rgb(68, 68, 68)" stroke-width="6px" stroke-linecap="round"></line>
             </svg>
         </button>
-
-        <label for="to">
-            To:
-            <input id="toField" type="to" value="{{recipient}}" disabled/>
-        </label>
-
-        <label for="message">
-            <span>Message:</span>
-            <textarea form="messageForm" formControlName="message" rows="14" cols="32"></textarea>
-        </label>
         
-        <input type="submit" [disabled]="submitBlocked" value="Send"/>
-    </form>
+        <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+        
+            <label for="to">
+                To:
+                <input id="toField" type="to" value="{{recipient}}" disabled />
+            </label>
+        
+            <label for="message">
+                <span>Message:</span>
+                <textarea form="messageForm" formControlName="message" rows="14" cols="32"></textarea>
+            </label>
+        
+            <input type="submit" [disabled]="submitBlocked" value="Send" />
+        </form>
+    </div>
 </div>

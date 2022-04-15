@@ -1,6 +1,6 @@
 section {
     width: 90%;
-    max-width: 500px;
+    max-width: 580px;
     padding: 10px 14px;
     margin: auto;
     display: flex;
@@ -14,7 +14,7 @@ h3 {
 
 #profile-top {
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(3, 1fr);
     column-gap: 2%;
 }
 
@@ -29,19 +29,6 @@ h3 {
     border-radius: 4px;
 }
 
-.top-div:nth-child(1) h4 {
-    margin: auto;
-    line-height: 16px;
-}
-
-.top-div:nth-child(2) {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr;
-    column-gap: 12px;
-    text-align: center;
-}
 
 .top-div:nth-child(2) h4 {
     margin-bottom: 5px;
@@ -104,6 +91,23 @@ a {
 }
 
 .results {
-    height: 100px;
+    min-height: 100px;
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+}
+
+.results a {
+    padding: 10px 8px;
+    display: flex;
+    /* text-align: left; */
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 0 0 2px 2px;
+    box-shadow: 0 0px 2px 1px rgba(0, 0, 0, .4);
+}
+
+.results a p:nth-child(2) {
+    margin: 0 auto;
 }

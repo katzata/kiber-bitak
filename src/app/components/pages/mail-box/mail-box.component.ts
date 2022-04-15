@@ -15,7 +15,7 @@ export class MailBoxComponent implements OnInit {
       private messageService: MessageService,
       private authService: AuthService
     ) {
-    this.messageService.getMail(this.authService.userData()!.id)
+    this.messageService.getMail()
       .subscribe((data: any) => {
         const [inbox, sent] = data;
         console.log(sent);
