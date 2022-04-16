@@ -48,9 +48,9 @@ export class AuthService {
       const user = new Parse.User();
 
       user.set({
-        username: data.username,
-        email: data.email,
-        password: data.password
+        username: data.username.trim(),
+        email: data.email.trim(),
+        password: data.password.trim()
       });
 
       user.save().then(data => observer.next(true))
@@ -65,7 +65,7 @@ export class AuthService {
     return new Observable(observer => {
       (async () => {
         try {
-          const user = await Parse.User.logIn(data.email, data.password);
+          const user = await Parse.User.logIn(data.email.trim(), data.password.trim());
 
           Parse.User.become(user.attributes["sessionToken"]).then(() => {
             // console.log(localStorage);

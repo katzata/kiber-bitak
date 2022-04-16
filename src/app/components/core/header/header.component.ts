@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth/auth.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class HeaderComponent {
   isLogged: boolean = this.authService.isLogged;
 
   constructor(
-    private router: Router,
     private authService: AuthService
   ) {
     this.authService.userStatus.subscribe(() => {
@@ -23,7 +21,6 @@ export class HeaderComponent {
   logOut() {
     this.authService.logOut()
       .subscribe((data: any) => {
-        console.log("logOut", data);
         this.authService.handleStatus({ status: false });
       });
   }

@@ -100,8 +100,9 @@ export class CatalogueComponent implements OnInit {
   };
 
   search() {
-    
-    const { search, products, users, sortCriteria, sortOrder, itemsPerPage } = this.searchForm.value;
+    let { search, products, users, sortCriteria, sortOrder, itemsPerPage } = this.searchForm.value;
+
+    search = search.trim();
     
     if (search.length > 2 && products || users) {
       this.catalogueService.search(this.searchForm.value)

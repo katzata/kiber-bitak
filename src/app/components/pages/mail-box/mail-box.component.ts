@@ -28,24 +28,28 @@ export class MailBoxComponent implements OnInit {
   ngOnInit(): void {
   };
 
-  toggleMessage(index: number) {
-    let messages = document.querySelectorAll(".sent-message") as NodeListOf<HTMLDivElement>;
+  toggleMessage(index: number, section: string) {
+    let inbox = document.querySelectorAll(".inbox-message") as NodeListOf<HTMLDivElement>;
+    let sent = document.querySelectorAll(".sent-message") as NodeListOf<HTMLDivElement>;
+
+    const messages = section === "sent" ? sent : inbox;
+
     for (let i = 0; i < messages.length; i++) {
       if (i === index) {
         if (messages[i].dataset["status"] === "closed") {
           messages[i].dataset["status"] = "open";
-          messages[i].style.height = "auto";
+          // messages[i].style.height = "100%";
           messages[i].style.overflow = "visible";
           messages[i].style.zIndex = "99999999";
         } else {
           messages[i].dataset["status"] = "closed";
-          messages[i].style.height = "46px";
+          // messages[i].style.height = "46px";
           messages[i].style.overflow = "hidden";
           messages[i].style.zIndex = "0";
         };
       } else {
         messages[i].dataset["status"] = "closed";
-        messages[i].style.height = "46px";
+        // messages[i].style.height = "46px";
         messages[i].style.overflow = "hidden";
         messages[i].style.zIndex = "0";
       };

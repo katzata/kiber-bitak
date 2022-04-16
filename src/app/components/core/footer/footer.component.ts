@@ -32,27 +32,6 @@ import {
         transform: "rotateZ(180deg)",
       }))
     ]),
-    // trigger("footerToggle", [
-    //   state("open", style({
-    //     transform: "rotate(180deg)"
-    //   })),
-    //   state("closed", style({
-    //     transform: "rotate(0deg)"
-    //   })),
-    //   transition("closed => open", animate("300ms ease-out")),
-    //   transition("open => closed", animate("300ms ease-in"))
-    // ])
-    // trigger("footerToggle", [
-    //   transition("closed => open", [
-    //     query("footer-top", style({ height: "auto" }), { optional: true }),
-    //     query("svg", animate("100ms", keyframes([
-    //       style({ opacity: 1 }),
-    //       style({ opacity: 0 }),
-    //       style({ transform: "rotateZ(180deg)" }),
-    //       style({ opacity: 1 }),
-    //     ])), { optional: true })
-    //   ])
-    // ])
   ]
 })
 

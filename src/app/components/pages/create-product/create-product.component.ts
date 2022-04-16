@@ -56,6 +56,12 @@ export class CreateProductComponent {
       return this.errorService.formErrors("create", errors);
     };
 
+    Object.values(this.createForm.value).map
+
+    this.createForm.value.name = this.createForm.value.name.trim();
+    this.createForm.value.location = this.createForm.value.location.trim();
+    this.createForm.value.description = this.createForm.value.description.trim();
+
     this.create.addItem(this.createForm.value).subscribe((status: boolean) => {
       if (status) {
         this.router.navigate(["/catalogue"]);

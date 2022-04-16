@@ -29,14 +29,20 @@ export class CarouselComponent implements AfterViewInit {
   };
 
   toggleSize() {
+    const open = document.querySelector("#toggle-button") as HTMLElement;
+    const close = document.querySelector("#close-carousel") as HTMLElement;
+
     if (this.carouselPosition === "relative") {
       this.carouselPosition = "static";
+      close.style.display = "block";
+      open.style.display = "none";
     } else {
       this.carouselPosition = "relative";
+      close.style.display = "none";
+      open.style.display = "block";
     };
-
+    
     this.carouselInternalStyle(this.carouselPosition)
-    console.log(this.internalStyle);
   };
 
   changeImage(dir: string) {

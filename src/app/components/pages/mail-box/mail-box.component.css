@@ -1,6 +1,7 @@
 h3 {
-    text-align: center;
     margin: 20px 0;
+    font-family: 'PT Serif Caption', serif;
+    text-align: center;
 }
 
 #mail-box {
@@ -12,6 +13,7 @@ h3 {
 
 .row {
     width: 100%;
+    height: 200px;
     margin-bottom: 20px;
     border-radius: 4px;
     background-color: #e2e2e2;
@@ -30,19 +32,18 @@ h3 {
     max-height: 300px;
     display: flex;
     flex-direction: column;
-    overflow: auto;
 }
 
-.sent-message {
+.sent-message, .inbox-message {
     width: 100%;
+    height: 46px;
     max-width: 100%;
-    min-height: 46px;
-    
     box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .4);
     overflow: hidden;
 }
 
-.sent-internal {
+.sent-internal, .inbox-internal {
+    position: relative;
     width: 100%;
     max-width: 100%;
     padding: 6px 8px;
@@ -51,7 +52,10 @@ h3 {
     background-color: #e2e2e2;
 }
 
+.shadow {
+    position: absolute;
+}
+
 span, h5 {
-    
     background-color: #e2e2e2;
 }
