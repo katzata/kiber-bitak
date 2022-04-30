@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth/auth.service';
-import { EditService } from './services/edit.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { EditService } from '../../services/edit-product-service/edit.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({

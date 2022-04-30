@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../shared/services/auth/auth.service';
-import { CatalogueService } from './services/catalogue.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { CatalogueService } from '../../services/catalogue-service/catalogue.service';
 import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 import { ViewportScroller } from '@angular/common';
+import { Subject } from "rxjs";
 
 interface T {
   [key: string]: any
@@ -76,10 +77,22 @@ export class CatalogueComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     ) {
       this.titleService.setTitle("Catalogue");
+      
+      this.catalogueService.results.subscribe((response: any) => {
+        let { sortCriteria, sortOrder, itemsPerPage } = this.searchForm.value;
+        
+        this.handlePagination(response.length, Number(itemsPerPage));
+        this.sortResults(response, sortCriteria, sortOrder);
+        
+        this.results = this.formatResults(response, Number(itemsPerPage));
+      });
   };
 
   ngOnInit(): void {
     // this.getProducts();
+    window.onpopstate = function () {
+      // alert("Back/Forward clicked!");
+    }
   };
 
   getProducts(): any {
@@ -101,24 +114,17 @@ export class CatalogueComponent implements OnInit {
 
   search() {
     let { search, products, users, sortCriteria, sortOrder, itemsPerPage } = this.searchForm.value;
-
     search = search.trim();
-    
-    if (search.length > 2 && products || users) {
-      this.catalogueService.search(this.searchForm.value)
-      .subscribe((data: any) => {
-          this.handlePagination(data.length, Number(itemsPerPage));
-          this.sortResults(data, sortCriteria, sortOrder);
 
-          this.results = this.formatResults(data, Number(itemsPerPage));
-        });
+    if (search.length > 2 && products || users) {
+      this.catalogueService.testSearch(this.searchForm.value);
     } else {
       const errors = [];
-      
+    
       if (!products && !users) {
         errors.push("You have to choose a search criteria.");
       };
-      
+    
       if (search.length < 3) {
         errors.push("The search query must be 3 characters at least.");
       };
@@ -126,6 +132,33 @@ export class CatalogueComponent implements OnInit {
       this.errorHandlingService.formErrors("serach", errors);
     };
   };
+  // search() {
+  //   let { search, products, users, sortCriteria, sortOrder, itemsPerPage } = this.searchForm.value;
+
+  //   search = search.trim();
+    
+  //   if (search.length > 2 && products || users) {
+  //     this.catalogueService.search(this.searchForm.value)
+  //     .subscribe((data: any) => {
+  //         this.handlePagination(data.length, Number(itemsPerPage));
+  //         this.sortResults(data, sortCriteria, sortOrder);
+
+  //         this.results = this.formatResults(data, Number(itemsPerPage));
+  //       });
+  //   } else {
+  //     const errors = [];
+      
+  //     if (!products && !users) {
+  //       errors.push("You have to choose a search criteria.");
+  //     };
+      
+  //     if (search.length < 3) {
+  //       errors.push("The search query must be 3 characters at least.");
+  //     };
+
+  //     this.errorHandlingService.formErrors("serach", errors);
+  //   };
+  // };
 
   handleSearchCriterias(target: EventTarget) {
     const query = this.searchForm.value.search.trim();
@@ -199,16 +232,9 @@ export class CatalogueComponent implements OnInit {
   handlePagination(count: number, itemsPerPage: number) {
     const calc = Math.ceil(count / itemsPerPage);
 
-    if (this.pages["current"] === calc) {
-      if (calc !== 0) {
-        this.pages["current"] = 0;
-      } else {
-        this.pages["current"] = calc - 1;
-      };
-    };
-    
-    this.pages["total"] = calc;
     this.pages["buttonArray"] = [...Array(calc).keys()];
+    this.pages["current"] = 0;
+    this.pages["total"] = calc;
     this.paginationVisible = calc > 1 ? true : false;
   };
 };

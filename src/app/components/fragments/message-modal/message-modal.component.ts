@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
-import { MessageService } from "../../shared/services/message/message.service";
-import { AuthService } from "../../shared/services/auth/auth.service";
+import { MessageService } from "../../../services/message/message.service";
+import { AuthService } from "../../services/auth/auth.service";
 import {
   trigger,
   state,

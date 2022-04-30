@@ -3,74 +3,45 @@
         <div id="carousel-internal" [ngStyle]="internalStyle">
             <img
                 *ngFor="let image of images; let i = index"
-                #images
+                class="carousel-image"
                 src={{image}}
                 alt="product image"
-                [ngStyle]="{'transform': 'translateX(' + (i * 120) + 'vw)'}"
                 (transitionend)="onTransitionEnd(i)"
+                [ngStyle]="{
+                    'transform': 'translateX(' + (i * 120) + 'vw)',
+                    'width': image.includes('assets') ? '28%' : '96%'
+                }"
             >
-
-            <button class="carousel-button-l" (click)="changeImage('prev')">
-                <svg viewBox="-10 -10 120 120">
-                    <line 
-                        x1="6" y1="50" x2="92" y2="50"
-                        stroke="black"
-                        stroke-width="12px"
-                        stroke-linecap="round"
-                    />
-
-                    <polyline
-                        points="50,30 92,50 50,70"
-                        stroke="black"
-                        fill="none"
-                        stroke-width="12px"
-                        stroke-linecap="round"
-                    />
-                </svg>
-            </button>
-
-            <button class="carousel-button-r" (click)="changeImage('next')">
-                <svg viewBox="-10 -10 120 120">
-                    <line 
-                        x1="6" y1="50" x2="92" y2="50"
-                        stroke="black"
-                        stroke-width="12px"
-                        stroke-linecap="round"
-                    />
-
-                    <polyline
-                        points="50,30 92,50 50,70"
-                        stroke="black"
-                        fill="none"
-                        stroke-width="12px"
-                        stroke-linecap="round"
-                    />
-                </svg>
-            </button>
-
-            <button id="close-carousel" (click)="toggleSize()">
-                <svg viewBox="0 0 400 400">
-                    <line 
-                        x1="40" y1="40" x2="360" y2="360"
-                        stroke="black"
-                        stroke-width="66px"
-                        stroke-linecap="round"
-                    />
-
-                    <line
-                        x1="40" y1="360" x2="360" y2="40"
-                        stroke="black"
-                        stroke-width="66px"
-                        stroke-linecap="round"
-                    />
-                </svg>
-            </button>
 
             <div id="current-image-container" *ngIf="images.length > 1">
                 <div class="current-image-dot" *ngFor="let img of images"></div>
             </div>
 
-            <button id="toggle-button" (click)="toggleSize()">
+            <button *ngIf="images.length > 1" class="carousel-button-l" (click)="changeImage('prev')">
+                <svg viewBox="-10 -10 120 120">
+                    <line x1="6" y1="50" x2="92" y2="50" stroke="black" stroke-width="12px" stroke-linecap="round" />
+            
+                    <polyline points="50,30 92,50 50,70" stroke="black" fill="none" stroke-width="12px" stroke-linecap="round" />
+                </svg>
+            </button>
+            
+            <button *ngIf="images.length > 1" class="carousel-button-r" (click)="changeImage('next')">
+                <svg viewBox="-10 -10 120 120">
+                    <line x1="6" y1="50" x2="92" y2="50" stroke="black" stroke-width="12px" stroke-linecap="round" />
+            
+                    <polyline points="50,30 92,50 50,70" stroke="black" fill="none" stroke-width="12px" stroke-linecap="round" />
+                </svg>
+            </button>
+            
+            <button *ngIf="images.length > 1" id="close-carousel" (click)="toggleSize()">
+                <svg viewBox="0 0 400 400">
+                    <line x1="40" y1="40" x2="360" y2="360" stroke="black" stroke-width="66px" stroke-linecap="round" />
+            
+                    <line x1="40" y1="360" x2="360" y2="40" stroke="black" stroke-width="66px" stroke-linecap="round" />
+                </svg>
+            </button>
+
+            <button *ngIf="canToggle" id="toggle-button" (click)="toggleSize()">
                 <svg viewBox="0 0 400 400">
                     <rect
                         x="0"

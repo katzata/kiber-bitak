@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from '../../shared/services/message/message.service';
-import { AuthService } from '../../shared/services/auth/auth.service';
+import { MessageService } from '../../../services/message/message.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-mail-box',

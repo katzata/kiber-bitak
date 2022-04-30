@@ -11,7 +11,7 @@ export class ErrorHandlingService implements OnInit {
 
   ngOnInit(): void {
     this.errors.subscribe((value: any) => {
-      this.test = [value];
+      // this.test = [value];
     });
   }
 
@@ -37,8 +37,10 @@ export class ErrorHandlingService implements OnInit {
   };
 
   httpError(origin: string, err: string) {
-    // console.log("caught", err);
+    console.log("caught", origin, err);
     const formated = this.formatHttpError(origin, err);
+    console.log(formated);
+    
     this.errors.next([formated]);
   };
 
@@ -73,6 +75,10 @@ export class ErrorHandlingService implements OnInit {
       message = "The " + err.replace(" is", "field is");
     };
 
+    // if (origin === "cart") {
+    //   message = err;
+    // };
+    
     return message;
   };
 }

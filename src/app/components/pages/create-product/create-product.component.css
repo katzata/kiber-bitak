@@ -55,7 +55,7 @@ form {
 }
 
 .triple:nth-child(3) {
-    grid-template-columns: 60px 60px 1fr;
+    grid-template-columns: 82px 60px 2fr;
 }
 
 /* .triple:nth-child(3) div:nth-child(1) {

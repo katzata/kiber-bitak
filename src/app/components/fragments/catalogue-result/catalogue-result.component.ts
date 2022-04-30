@@ -1,28 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-catalogue-result',
   templateUrl: './catalogue-result.component.html',
   styleUrls: ['./catalogue-result.component.css']
 })
-export class CatalogueResultComponent implements OnInit {
-
+export class CatalogueResultComponent {
   @Input() res: any;
-  
-  constructor(
-    private route: ActivatedRoute
-  ) {
-  }
-
-  ngOnInit(): void {
-    // console.log(this.res);
-    // this.res.subscribe((params: any) => {
-    //   console.log("x");
-      
-      // this.name = params['name'];
-    // });
-    
-  }
-
-}
+};

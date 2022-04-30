@@ -1,7 +1,7 @@
 section {
     width: 90%;
     max-width: 580px;
-    padding: 10px 14px;
+    padding: 10px 0;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -99,14 +99,27 @@ a {
     text-align: center;
 }
 
-.results a {
+.products-result, .sold-result {
     padding: 10px 8px;
-    display: flex;
-    /* text-align: left; */
+    display: grid;
+    grid-template-columns: 1fr auto 126px;
+    column-gap: 3%;
     font-size: 14px;
     border-bottom: 1px solid rgba(0, 0, 0, .4);
     border-radius: 0 0 2px 2px;
     box-shadow: 0 0px 2px 1px rgba(0, 0, 0, .4);
+}
+
+.sold-result {
+    grid-template-columns: 1fr 80px 80px 126px;
+}
+
+a p {
+    text-align: right;
+}
+
+a p:nth-child(1) {
+    text-align: left;
 }
 
 .results a p:nth-child(2) {

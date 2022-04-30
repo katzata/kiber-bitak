@@ -11,10 +11,10 @@ import { HeaderComponent } from './components/core/header/header.component';
 import { AuthPageComponent } from './components/pages/auth-page/auth-page.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { CatalogueComponent } from './components/pages/catalogue/catalogue.component';
-import { SectionResultsComponent } from './components/shared/section-results/section-results.component';
+import { SectionResultsComponent } from './components/fragments/section-results/section-results.component';
 import { CreateProductComponent } from './components/pages/create-product/create-product.component';
-import { HoverDirective } from './components/shared/section-results/directives/hover.directive';
-// import { SectionResultsService } from './components/shared/section-results/services/section-results.service';
+import { HoverDirective } from './components/fragments/section-results/directives/hover.directive';
+import { SectionResultsService } from './components/services/section-results-service/section-results.service';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
 import { GlobalErrorHandler } from './services/error-handling/GlobalErrorHandler';
 import { ServerErrorInterceptor } from './services/error-handling/server-error.interceptor';
@@ -27,8 +27,12 @@ import { ErrorModalComponent } from './components/core/error-modal/error-modal.c
 
 import { EditProductComponent } from './components/pages/edit-product/edit-product.component';
 import { EditProfileComponent } from './components/pages/edit-profile/edit-profile.component';
-import { AuthGuardService } from './components/shared/services/auth-guard/auth-guard.service';
+import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { MailBoxComponent } from './components/pages/mail-box/mail-box.component';
+import { FormatResponsePipe } from './components/shared/pipes/format-response/format-response.pipe';
+import { BuyProductComponent } from './components/pages/buy-product/buy-product.component';
+import { ShoppingCartComponent } from './components/pages/shopping-cart/shopping-cart.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,11 @@ import { MailBoxComponent } from './components/pages/mail-box/mail-box.component
     ErrorModalComponent,
     EditProductComponent,
     EditProfileComponent,
-    MailBoxComponent
+    MailBoxComponent,
+    FormatResponsePipe,
+    BuyProductComponent,
+    ShoppingCartComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule,

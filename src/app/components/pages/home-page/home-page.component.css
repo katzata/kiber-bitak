@@ -1,4 +1,9 @@
 h2 {
-    margin: 36vh auto;
+    margin: 40px auto;
     text-align: center;
+}
+
+#results-container {
+    width: 80%;
+    margin: auto;
 }

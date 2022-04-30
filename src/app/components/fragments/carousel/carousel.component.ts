@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, QueryList, Input, ViewChildren, ElementRef, OnInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 
 interface IntStyle {
   left: number;
@@ -14,6 +14,7 @@ interface IntStyle {
 })
 export class CarouselComponent implements AfterViewInit {
   offset: number = 0;
+  canToggle: boolean = false;
   carouselPosition: string = "relative";
   internalStyle: IntStyle = {
     left: 0,
@@ -25,21 +26,39 @@ export class CarouselComponent implements AfterViewInit {
   @Input() images: Array<string> = [];
 
   ngAfterViewInit(): void {
+    this.initImages();
     this.handleCurrentDot();
+  };
+
+  initImages() {
+    if (this.images.length === 0) {
+      this.images = ["assets/svg/no-image.svg"];
+    } else {
+      this.canToggle = true;
+    };
   };
 
   toggleSize() {
     const open = document.querySelector("#toggle-button") as HTMLElement;
     const close = document.querySelector("#close-carousel") as HTMLElement;
+    const details = document.querySelector("#product-details") as HTMLElement;
+    const page = document.querySelector("#content") as HTMLElement;
+    const test = document.querySelector("#carousel-bg") as HTMLElement;
 
     if (this.carouselPosition === "relative") {
       this.carouselPosition = "static";
       close.style.display = "block";
       open.style.display = "none";
+      page.style.overflowY = "hidden";
+      details.style.overflow = "hidden";
+      test.style.top = `${details.scrollTop}px`;
     } else {
       this.carouselPosition = "relative";
       close.style.display = "none";
       open.style.display = "block";
+      page.style.overflowY = "auto";
+      details.style.overflow = "auto";
+      test.style.top = "0";
     };
     
     this.carouselInternalStyle(this.carouselPosition)

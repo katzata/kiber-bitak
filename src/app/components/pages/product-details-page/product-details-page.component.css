@@ -1,5 +1,10 @@
 section {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
+    overflow: auto;
 }
 
 h2 {
@@ -10,7 +15,7 @@ h2 {
 #details-internal {
     width: 90%;
     max-width: 640px;
-    margin: auto;
+    margin: auto auto 20px;
     background-color: #1e3746;
     border: 1px solid #1e3746;
     box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 1);
@@ -30,6 +35,7 @@ h2 {
     grid-column-end: 3;
     display: grid;
     grid-template-columns: 1fr auto;
+    background-color: rgba(0, 0, 0, 0.15);
     box-shadow: inset 0 0 2px 1px black;
     border-radius: 3px 3px 0 0;
 }
@@ -54,18 +60,25 @@ h3 {
 
 #details-top-body {
     position: relative;
-    padding: 2px 6px;
+    padding: 0 6px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-#details-top-body div {
+.row {
     margin-right: auto;
     padding: 0 2px;
     display: flex;
     flex-wrap: wrap;
     border-bottom: 1px solid rgba(0, 0, 0, .4);
+}
+
+.row:last-child {
+    width: 100%;
+    padding: 4px 0;
+    justify-content: space-around;
+    border-bottom: none;
 }
 
 #details-body span {
@@ -80,30 +93,135 @@ h3 {
     margin: 0 0 1px 0;
     display: block;
     font-size: 15px;
-    /* border-bottom: 1px solid rgba(0, 0, 0, .4); */
 }
 
-#details-top-body div:last-child {
-    width: 100%;
-    padding-bottom: 4px;
-    justify-content: space-around;
-    border-bottom: none;
+#edit,
+#buy-container,
+#contact-seller,
+#submit-field {
+    width: 36%;
+    height: 33px;
+    margin: 4px 0;
+    color: black;
+    text-align: center;
+    border-radius: 3px;
 }
 
-#buy-product, #contact-seller {
-    width: 40%;
-    min-width: 110px;
-    padding: 1% 0;
-    margin-top: 4px;
-    border-radius: 6px;
+#edit,
+#contact-seller,
+#submit-field {
+    border-radius: 3px;
     border: 1px solid black;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, .5);
+}
+
+#edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e3eaf3;
+}
+
+#buy-container, #contact-seller {
+    min-width: 140px;
+}
+
+#buy-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#buy-container button, input {
+    width: 46%;
+    height: 100%;
+}
+
+#buy-product {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    display: flex;
+
+    border: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+form {
+    width: 100%;
+    padding-right: 31px;
+    opacity: 0;
+}
+
+#add-fields {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+form label {
+    width: 46%;
+    margin-left: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    line-height: 12px;
+    color: #e3eaf3;
+}
+
+#add-to-cart-text, #cancel-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+#cancel-text {
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+}
+
+input:focus {
+    outline: none;
+}
+
+#submit-field {
+    width: 46%;
+    padding: 0 6px;
+}
+
+#quantity-field {
+    height: 18px;
+    width: 100%;
+    padding: 0 2px;
+    margin-top: 2px;
+    font-size: 14px;
+    line-height: 16px;
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px;
+}
+
+#id-field,
+#name-field,
+#price-field,
+#seller-field {
+    display: none;
 }
 
 #carousel-container {
     width: calc(110px + 8.3531799729364005vw);
     max-width: 180px;
     max-height: 180px;
+    border: 1px solid #1e3746;
+    box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, .5);
 }
 
 #views {
@@ -129,18 +247,9 @@ a:visited {
     color: rgb(221, 221, 221);
 }
 
-#edit,
-#contact-seller {
-    padding: 4px 24px;
-    background-color: rgb(240, 240, 240);
-    color: black;
-    border: 1px solid black;
-    border-radius: 3px;
-    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, .5);
-}
-
 #details-bottom {
     padding: 8px;
+    background-color: rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     letter-spacing: .5px;

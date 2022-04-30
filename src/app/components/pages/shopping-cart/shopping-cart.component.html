@@ -1,0 +1,68 @@
+<section>
+    <h3>Shopping cart</h3>
+    
+    <div id="cart-header" *ngIf="userData.cart.length > 0">
+        <button id="checkoutButton" (click)="toggleCheckout()">{{isCheckingOut === "true" ? "Close" : "Checkout"}}</button>
+
+        <div id="cart-header-internal" [@toggleClick]="isCheckingOut">
+            <div class="header-column">
+                <div class="title-container">
+                    <div id="test"></div>
+                    <hr><h4>Buyer details</h4><hr>
+                </div>
+        
+                <p>Username: </p>
+                <p>{{userData.username}}</p>
+                <p>Email: </p>
+                <p>{{userData.email}}</p>
+                <p>Address: </p>
+                <p>{{userData.address}}</p>
+            </div>
+        
+            <div class="header-column">
+                <div class="title-container">
+                    <hr><h4>Order details</h4><hr>
+                </div>
+        
+                <p>Peaces: {{userData.totalPeaces}}</p>
+                <p>Products: {{userData.totalProducts}}</p>
+            </div>
+            
+            <div id="confirm-div">
+                <button id="confirm-button" (click)="confirmPurchases()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-body">
+        <div class="title-container">
+            <hr>
+            <h4>Total amount: <span>{{userData.totalAmount}} BGN</span></h4>
+            <hr>
+        </div>
+
+        <div id="cart-body-items">
+            <div id="items-header">
+                <p>Product name</p>
+                <p>Unit price</p>
+                <p>Peaces total</p>
+                <p>Price total</p>
+            </div>
+
+            <div class="body-row" *ngFor="let item of userData.cart; let i = index">
+                <p>{{i + 1}}.</p>
+                <a routerLink="/details/product/{{item.id}}"><span>{{item.name}}</span></a>
+                <p>{{item.price}} <span>BGN</span></p>
+                <p>{{item.quantity}} <span>PCS</span></p>
+                <p>{{item.price * item.quantity}} <span>BGN</span></p>
+            
+                <button class="remove-item" (click)="removeItem(item.id)">
+                    <svg id="cancel-text" viewBox="0 0 64 64">
+                        <line x1="4" y1="4" x2="60" y2="60" stroke="red" stroke-width="8px" stroke-linecap="round"></line>
+                        <line x1="60" y1="4" x2="4" y2="60" stroke="red" stroke-width="8px" stroke-linecap="round"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

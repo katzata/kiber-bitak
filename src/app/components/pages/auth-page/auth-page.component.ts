@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { FormGroup, FormBuilder, FormControl, Validators, ValidationErrors } from "@angular/forms";
-import { AuthService } from "../../shared/services/auth/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
   selector: "app-auth-page",
@@ -56,37 +56,44 @@ export class AuthPageComponent implements OnInit {
 
   };
 
-  onSubmit(): void {
+  async onSubmit() {
     const errors: Array<Array<string>> | null = this.currentForm.status !== "VALID" ? this.formatErrors(this.currentForm.controls) : null;
-
-    if (errors) {
-      return;
-    };
+    if (errors) return;
 
     interface action {
       [key: string]: Function;
     };
 
     const actions: action = {
-      login: (data: any) => this.authService.login(data),
-      register: (data: any) => this.authService.register(data)
+      login: async (data: any) => this.authService.login(data),
+      register: async (data: any) => this.authService.register(data)
     };
 
     this.submitBlocked = true;
 
-    actions[this.action](this.currentForm.value).subscribe((logged: boolean) => {
-      this.submitBlocked = false;
-      
-      if (logged) {
-        this.authService.handleStatus({ status: logged });
-        this.currentForm.reset();
-        this.router.navigate(["/home"]);
-      };
-    });
-  };
+    // if (this.action === "register") {
+    //   await this.authService.register(this.currentForm.value)
+    //     .then((data: any) => {
+    //       this.router.navigate(["/home"]);
+    //     });
+        
+    //     this.submitBlocked = false;
+    // } else {
+    //   await this.authService.login(this.currentForm.value)
+    //     .then((data: any) => {
+    //       this.router.navigate(["/home"]);
+    //       console.log(data);
+    //     });
+        
+    //     this.submitBlocked = false;
+    // };
 
-  private checkRepeatPasword(controls: any) {
-    return this.password === this.repeatPassword;
+    await actions[this.action](this.currentForm.value)
+      .then((test: any) => {
+        this.router.navigate(["/"]);
+      });
+
+    this.submitBlocked = false;
   };
 
   private formatPath(path: string, type: string) {

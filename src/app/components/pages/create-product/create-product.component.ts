@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { Router } from '@angular/router';
-import { CreateService } from './services/create.service';
+import { CreateService } from '../../services/create-product-service/create.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ErrorHandlingService } from 'src/app/services/error-handling/error-handling.service';
 
@@ -31,6 +31,7 @@ export class CreateProductComponent {
     condition: new FormControl("", [Validators.required]),
     delivery: new FormControl("", [Validators.required]),
     price: new FormControl(Number, [Validators.required, Validators.min(1)]),
+    quantity: new FormControl(Number, [Validators.required, Validators.min(1)]),
     location: new FormControl("", [Validators.required, Validators.minLength(5)]),
     images: "",
     imageData: [],

@@ -1,12 +1,16 @@
-<header>
+<div id="header">
     <div id="test-div"></div>
     <nav>
-        <a routerLink="/" id="home-btn">Home</a>
+        <a routerLink="" id="home-btn">Home</a>
 
         <div *ngIf="isLogged; else elseBlock">
             <a routerLink="/profile">Profile</a>
             <a routerLink="/catalogue">Catalogue</a>
-            <a routerLink="javascript:void(0)" (click)="logOut()">Logout</a>
+            <a href="javascript:void(0)" (click)="logOut($event)">Logout</a>
+
+            <div id="cart-container">
+                <a routerLink="/cart">X</a>
+            </div>
         </div>
 
         <ng-template #elseBlock>
@@ -16,4 +20,4 @@
             </div>
         </ng-template>
     </nav>
-</header>
+</div>

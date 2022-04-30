@@ -1,6 +1,5 @@
-
-<section id="details" *ngIf="details">
-    <h2>Details</h2>
+<section id="product-details" *ngIf="details">
+    <h2 id="details-title">Details</h2>
 
     <div id="details-internal">
         <div id="details-top">
@@ -18,32 +17,63 @@
             <div id="details-top-body">
                 <span id="views">{{details.views}} views</span>
         
-                <div>
+                <div class="row">
                     <span>Department: </span>
                     <p>{{details.department}}</p>
                 </div>
         
-                <div>
+                <div class="row">
                     <span>Condition: </span>
                     <p>{{details.condition}}</p>
                 </div>
         
-                <div>
+                <div class="row">
                     <span>Price: </span>
-                    <p>{{details.price}} lv.</p>
+                    <p>{{details.price}} BGN.</p>
+                </div>
+
+                <div class="row">
+                    <span>Quantity: </span>
+                    <p>{{details.quantity}}</p>
                 </div>
         
-                <div>
+                <div class="row">
                     <span>Delivery: </span>
                     <p>{{details.delivery}}</p>
                 </div>
         
-                <div *ngIf="isLogged">
-                    <div *ngIf="isOwner; else elseBlock">
-                        <a id="edit" routerLink="/edit/product/{{details.id}}">Edit</a>
-                    </div>
+                <div class="row" *ngIf="isLogged">
+                    <a *ngIf="isOwner; else elseBlock" id="edit" routerLink="/edit/product/{{details.id}}">
+                        Edit
+                    </a>
         
                     <ng-template #elseBlock>
+                        <div id="buy-container">
+                            <button id="buy-product" [@addToggle]="isAdding" (click)="toggleAddForm()">
+                                <span id="add-to-cart-text" [@addTextToggle]="isAdding">Add to cart</span>
+
+                                <svg id="cancel-text" viewBox="0 0 64 64" [@cancelTextToggle]="isAdding">
+                                    <line x1="18" y1="18" x2="46" y2="46" stroke="red" stroke-width="6px" stroke-linecap="round"></line>
+                                    <line x1="46" y1="18" x2="18" y2="46" stroke="red" stroke-width="6px" stroke-linecap="round"></line>
+                                </svg>
+                            </button>
+
+                            <form (submit)="onSubmit($event)" [@formToggle]="isAdding">
+                                <fieldset id="add-fields">
+                                    <input id="submit-field" type="submit" value="Add">
+                                    
+                                    <label for="quantity">
+                                        Qty.
+                                        <input id="quantity-field" name="quantity" max={{details.quantity}} type="number" value="1">
+                                        <input id="id-field" name="id" type="text" value={{details.id}}>
+                                        <input id="name-field" name="name" type="text" value={{details.name}}>
+                                        <input id="price-field" name="price" type="number" value={{details.price}}>
+                                        <input id="seller-field" name="seller" type="text" value={{details.seller.id}}>
+                                    </label>
+                                </fieldset>
+                            </form>
+                        </div>
+                        
                         <button id="contact-seller" (click)="contactSeller()">Contact seller</button>
                     </ng-template>
                 </div>

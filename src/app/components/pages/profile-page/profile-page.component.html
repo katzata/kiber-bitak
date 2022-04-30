@@ -45,14 +45,45 @@
     </div>
 
     <div id="profile-bottom">
-        <div>
+        <div class="bottom-div">
+            <h4>Your purchases</h4>
+        
+            <div class="results">
+                <a class="products-result" *ngFor="let purchase of purchases" routerLink="/details/product/{{purchase}}">
+                    <p>Product: {{purchase.name}}</p>
+                    <p>Quantity: {{purchase.quantity}} PCS</p>
+                    <p>Price: {{purchase.price}} BGN</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottom-div">
             <h4>Your products</h4>
         
             <div class="results">
-                <a *ngFor="let product of products" href="/details/product/{{product.id}}">
+                <a class="products-result" *ngFor="let product of products" routerLink="/details/product/{{product.id}}">
                     <p>{{product.attributes.name}}</p>
                     <p>{{product.attributes.views}} views</p>
                     <p>Created on: {{product.createdAt.toLocaleDateString()}}</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottom-div">
+            <h4>Items sold</h4>
+        
+            <div class="results">
+                <a class="sold-result" *ngFor="let item of sold" routerLink="/details/product/{{item.id}}">
+                    <p>{{item.name}}</p>
+                    <p>
+                        {{item.quantity}}
+                        <span>PCS</span>
+                    </p>
+                    <p>
+                        {{item.price}}
+                        <span>BGN</span>
+                    </p>
+                    <p>{{item.date.toLocaleDateString()}}</p>
                 </a>
             </div>
         </div>

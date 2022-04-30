@@ -8,7 +8,7 @@
 
 #error-modal {
     right: 12px;
-    bottom: calc(100% + 2px);
+    bottom: 3px;
     padding: 12px 10px 6px;
 }
 

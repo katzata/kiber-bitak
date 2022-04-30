@@ -1,0 +1,39 @@
+<div id="section-results">
+    <div class="result" *ngFor="let item of results; let i = index" [ngStyle]="{
+        'transform': 'translate(' + (i * 14) + 'px, ' + (i * 32) + 'px)',
+        'animation-name': 'slideDown' + (5 - i),
+        'z-index': i}"
+        (mouseenter)="this.hoverDirective.focusResult($event.target, i)"
+        (mouseleave)="this.hoverDirective.unFocusResult($event.target, i)"
+    >
+        <div class="gradient-cover">
+            <div class="main-text">
+                <div class="main-info">
+                    <h3>{{item["name"]}}</h3>
+    
+                    <div class="result-details">
+                        <div>
+                            <span>Condition</span>
+                            <p>{{item["condition"]}}</p>
+                        </div>
+    
+                        <div>
+                            <span>Price</span>
+                            <p>{{item["price"]}}</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <p class="result-description">{{item["description"]}}</p>
+    
+                <div class="main-text-fade"></div>
+            </div>
+    
+            <div id="image-container">
+                <img src="{{item['images'][0]}}" alt="product-image">
+                <!-- <div class="img-container" *ngFor="let img of item['photos']" [style.background-image]="'url(' + img + ')'">
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

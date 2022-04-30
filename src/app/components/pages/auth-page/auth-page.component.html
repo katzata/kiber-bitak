@@ -1,37 +1,32 @@
 <h3>{{title}}</h3>
 
 <form [formGroup]="currentForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="isRegistering">
-        <label for="username">
-            Username
-            <span *ngIf="username.errors && !username.pristine">Username is required.</span>
-        </label>
+    <div class="form-div" *ngIf="isRegistering">
+        <label for="username">Username</label>
         <input type="text" formControlName="username" name="username" placeholder="John Doe" value="katzata">
     </div>
 
-    <label for="email">
-        Email
-        <span *ngIf="isRegistering && email!.errors && !email!.pristine">A valid email is required.</span>
-    </label>
+    <label for="email">Email</label>
     <input type="email" formControlName="email" name="email" placeholder="johndoe@exmple.com" value="katzata@abv.bg">
 
-    <label for="password">
-        Password
-        <span *ngIf="isRegistering && password.errors && !password.pristine">Your password should be at least 6 symbols.</span>
-    </label>
+    <label for="password">Password</label>
     <input type="password" formControlName="password" name="password" placeholder="Choose a password" value="asdasd">
 
-    <div *ngIf="isRegistering">
-        <label for="repeatPassword">
-            Re-enter password
-            <span *ngIf="repeatPassword.errors && !repeatPassword.pristine">Passwords do not match.</span>
-        </label>
+    <div class="form-div" *ngIf="isRegistering">
+        <label for="repeatPassword">Re-enter password</label>
         <input type="password" formControlName="repeatPassword" name="repeatPassword" placeholder="Confirm password" value="asdasd">
     </div>
 
     <input type="submit" [disabled]="submitBlocked" value="Submit">
 </form>
 
-<div>
-    <p>If you already have an account you can register <a routerLink="{{linkPath}}">here</a></p>
+<div id="auth-redirect">
+    <p>
+        <span *ngIf="!isRegistering; else elseBlock">If you don't have an account you can register</span>
+        <a routerLink="{{linkPath}}"> here</a>
+    </p>
+
+    <ng-template #elseBlock>
+        <span>If you already have an account you can login</span>
+    </ng-template>
 </div>

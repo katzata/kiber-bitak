@@ -12,6 +12,7 @@ form {
     margin: auto;
     display: flex;
     flex-direction: column;
+    font-family: Roboto, sans-serif;
 }
 
 label{
@@ -21,12 +22,6 @@ label{
     line-height: 18px;
     justify-content: space-between;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-}
-
-span {
-    font-size: 17px;
-    line-height: 16px;
-    color: #e00000;
 }
 
 input {
@@ -55,12 +50,28 @@ input[type="submit"] {
     user-select: none;
 }
 
-div {
+.form-div {
     display: flex;
     flex-direction: column;
 }
 
+#auth-redirect {
+    padding: 0 20px;
+    display: flex;
+}
+
 p {
-    margin-bottom: 30px;
+    margin: 0 0 30px auto;
+    font-family: Poppins, sans-serif;
     text-align: center;
+}
+
+a {
+    color: #afb9c5;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #afb9c5;
 }

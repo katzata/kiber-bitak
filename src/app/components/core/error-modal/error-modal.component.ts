@@ -42,6 +42,8 @@ export class ErrorModalComponent {
   ) { 
     this.errorService.errors.subscribe((data: any) => {
       this.errors = data;
+      console.log(data);
+      
       this.toggleVisibility(true);
     });
 
